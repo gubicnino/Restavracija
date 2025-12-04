@@ -1,0 +1,17 @@
+.PageTitle {
+  padding: var(--spacing-xl) var(--spacing-md);
+  background-color: var(--color-secondary);
+  text-align: center;
+}
+
+.PageTitle h1 {
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-sm);
+}
+
+.PageTitle p {
+  font-size: 1.2rem;
+  color: var(--color-text-secondary);
+  max-width: 800px;
+  margin: 0 auto;
+}

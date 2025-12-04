@@ -1,0 +1,96 @@
+.auth-container {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+}
+
+.auth-form-wrapper {
+  background-color: var(--color-secondary);
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-lg);
+  max-width: 450px;
+  width: 100%;
+}
+
+.auth-form-wrapper h2 {
+  color: var(--color-accent);
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+  font-size: 2rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.auth-form input {
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  padding: var(--spacing-sm);
+  font-size: 1rem;
+  font-family: var(--font-secondary);
+  transition: border-color 0.3s ease;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.auth-form input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.auth-form button[type="submit"] {
+  background-color: var(--color-accent);
+  color: var(--color-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: var(--spacing-sm);
+  transition: background-color 0.3s ease;
+}
+
+.auth-form button[type="submit"]:hover:not(:disabled) {
+  background-color: var(--color-accent-dark);
+}
+
+.auth-form button[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background-color: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgb(220, 38, 38);
+  color: rgb(252, 165, 165);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.auth-link {
+  text-align: center;
+  margin-top: var(--spacing-md);
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.auth-link a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.auth-link a:hover {
+  color: var(--color-accent-dark);
+}

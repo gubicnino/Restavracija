@@ -1,0 +1,66 @@
+# Node modules
+data/www/node_modules/
+
+# Build outputs
+data/www/dist/
+data/www/build/
+
+# Environment variables
+data/www/.env
+data/www/.env.local
+data/www/.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# MySQL data
+data/mysql/*
+!data/mysql/script.sql
+
+# PHP vendor
+data/php/vendor/
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Dokumentacija
+dokumentacija/E-R/*.mwb.bak
+dokumentacija/**/*.tmp
+dokumentacija/**/*.backup
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
