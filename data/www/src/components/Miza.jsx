@@ -1,7 +1,6 @@
 import React,{ useEffect, useState }   from 'react'
-import Button from './Button'
 import { pridobiRezervacijeZaMizo } from '../services/mize';
-
+import { GoldButton } from './common/Button';
 export default function Miza({ id, stevilka, kapaciteta, lokacija }) {
     const [rezervacije, setRezervacije] = useState([]);
       useEffect(() => {
@@ -39,7 +38,7 @@ export default function Miza({ id, stevilka, kapaciteta, lokacija }) {
                 )}
             </ul>
             <div className="button-wrapper">
-                <Button variant="primary" onClick={handleMizaClick}>Rezerviraj</Button>
+                <GoldButton variant="primary" onClick={handleMizaClick}>Rezerviraj</GoldButton>
             </div>
         </div>
     )

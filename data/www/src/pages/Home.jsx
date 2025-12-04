@@ -1,38 +1,25 @@
-import '../styles/Home.css';
-import Button from '../components/Button';
+import React from 'react'
+import { Hero } from '../components/steakhouse/Hero'
+import { About } from '../components/steakhouse/About'
+import { MenuPreview } from '../components/steakhouse/MenuPreview'
+import { Chef } from '../components/steakhouse/Chef'
+import { Reservation } from '../components/steakhouse/Reservation'
+import { Gallery } from '../components/steakhouse/Gallery'
+import Footer from '../components/Footer'
+import Navigation from '../components/Navigation'
 
-function Home() {
+export default function SteakhouseLanding() {
   return (
-    <div className="home">
-      <section className="hero">
-        <div className="hero-content">
-          <h1>STEAK HOUSE</h1>
-          <p>Nepozabna kulinarična izkušnja v srcu Ljubljane</p>
-          <Button variant="primary">Rezerviraj Mizo</Button>
-        </div>
-      </section>
-
-      <section className="features">
-        <div className="features-container">
-          <h2>Zakaj STEAK HOUSE?</h2>
-          <div className="features-grid">
-            <div className="feature-card">
-              <h3>Premium Meso</h3>
-              <p>Uporabljamo samo najboljše meso iz certificiranih virov, zorjeno do popolnosti.</p>
-            </div>
-            <div className="feature-card">
-              <h3>Mojstrsko Pripravljen</h3>
-              <p>Naši chefi so strokovnjaki za pripravo steakov z več kot 20 leti izkušenj.</p>
-            </div>
-            <div className="feature-card">
-              <h3>Ekskluzivna Atmosfera</h3>
-              <p>Uživajte v luksuznem ambientu z vrhunsko storitvijo in pozornostjo do detajlov.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  );
+    <>
+      <Navigation />
+      <main>
+        <Hero />
+        <About />
+        <MenuPreview />
+        <Chef />
+        <Reservation />
+        <Gallery />
+      </main>
+    </>
+  )
 }
-
-export default Home;

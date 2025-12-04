@@ -1,6 +1,6 @@
 import '../styles/Contact.css';
 import PageTitle from '../components/common/PageTitle';
-import Button from '../components/Button';
+import { GoldButton } from '../components/common/Button';
 
 function Contact() {
   return (
@@ -50,7 +50,7 @@ function Contact() {
           <p>
             Veselimo se vašega obiska v Prime Cuts!
           </p>
-          <Button variant="primary">Rezerviraj Mizo</Button>
+          <GoldButton variant="primary">Rezerviraj Mizo</GoldButton>
 
           <div style={{ marginTop: 'var(--spacing-md)', paddingTop: 'var(--spacing-md)', borderTop: '1px solid var(--color-border)' }}>
             <h3 style={{ color: 'var(--color-accent)', marginBottom: 'var(--spacing-sm)' }}>Sledite Nam</h3>
