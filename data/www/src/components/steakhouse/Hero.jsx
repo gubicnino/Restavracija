@@ -18,7 +18,7 @@ export function Hero() {
       y
     }} className="absolute inset-0 w-full h-[120%]">
         <div className="absolute inset-0 bg-cover bg-center" style={{
-        backgroundImage: `url('https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069&auto=format&fit=crop')`
+        backgroundImage: `url('/assets/naslovna2-fotojj-l-big-02.jpg')`
       }} />
         {/* Dark overlay with gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-black-rich/70 via-black-rich/50 to-black-rich" />

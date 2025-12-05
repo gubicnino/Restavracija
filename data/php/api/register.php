@@ -42,9 +42,9 @@ try {
     }
 
     // Ustvari novega uporabnika
-    $geslo;
+    $hashedPassword = password_hash($geslo, PASSWORD_DEFAULT);
     $stmt = $pdo->prepare("INSERT INTO user (ime, priimek, email, geslo) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$ime, $priimek, $email, $geslo]);
+    $stmt->execute([$ime, $priimek, $email, $hashedPassword]);
 
     $userId = $pdo->lastInsertId();
 

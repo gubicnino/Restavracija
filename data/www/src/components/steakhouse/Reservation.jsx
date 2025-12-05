@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { CalendarIcon, ClockIcon, UsersIcon, PhoneIcon, MailIcon, CheckIcon } from 'lucide-react';
+import { ustvariRezervacijo } from '../../services/rezervacije';
+import { pridobiProsteTermine } from '../../services/termini';
 
 export function Reservation() {
   const ref = useRef(null);
@@ -9,6 +11,8 @@ export function Reservation() {
     margin: '-100px'
   });
   
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -20,25 +24,81 @@ export function Reservation() {
     occasion: '',
     requests: ''
   });
+
+  useEffect(() => {
+    const fetchAvailableSlots = async () => {
+      if (!formData.date || !formData.guests) {
+        setAvailableSlots([]);
+        return;
+      }
+
+      setLoadingSlots(true);
+      
+      try {
+        const data = await pridobiProsteTermine(
+          formData.date,
+          parseInt(formData.guests)
+        );
+
+        if (data.success) {
+          setAvailableSlots(data.prosti_termini);
+        } else {
+          console.error('Error fetching slots:', data.message);
+          setAvailableSlots([]);
+        }
+      } catch (error) {
+        console.error('Error fetching available slots:', error);
+        setAvailableSlots([]);
+      } finally {
+        setLoadingSlots(false);
+      }
+    };
+
+    fetchAvailableSlots();
+  }, [formData.date, formData.guests]);
   
   const handleChange = (e) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
     }));
+
+    if (e.target.name === 'date' || e.target.name === 'guests') {
+      setFormData(prev => ({
+        ...prev,
+        time: ''
+      }));
+    }
   };
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitted(true);
+
+    const reservationDetails = {
+      polno_ime: formData.name,
+      email: formData.email,
+      telefon: formData.phone,
+      datum: formData.date,
+      cas_zacetek: formData.time,
+      stevilo_oseb: parseInt(formData.guests),
+      posebna_priloznost: formData.occasion,
+      posebne_zelje: formData.requests
+    };
+
+    ustvariRezervacijo(reservationDetails)
+      .then(response => {
+        console.log('Reservation created:', response);
+        setIsSubmitted(true);
+      })
+      .catch(error => {
+        console.error('Error creating reservation:', error);
+      });
   };
   
-  const timeSlots = ['5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM'];
-  const occasions = ['None', 'Birthday', 'Anniversary', 'Business Dinner', 'Date Night', 'Celebration', 'Other'];
+  const occasions = ['Brez', 'Rojstni dan', 'Obletnica', 'Poslovno kosilo', 'Zmenek', 'Praznovanje', 'Drugo'];
   
   return (
     <section id="reservation" className="relative py-32 px-6 overflow-hidden">
-      {/* Background Image */}
       <div className="absolute inset-0">
         <img 
           src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop" 
@@ -50,7 +110,6 @@ export function Reservation() {
       </div>
 
       <div ref={ref} className="relative max-w-5xl mx-auto">
-        {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }} 
           animate={isInView ? { opacity: 1, y: 0 } : {}} 
@@ -58,14 +117,14 @@ export function Reservation() {
           className="text-center mb-16"
         >
           <p className="text-gold tracking-[0.3em] uppercase text-sm font-inter mb-4">
-            Join Us
+            Pridružite se nam
           </p>
           <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl text-white mb-6">
-            Make a <span className="text-gold-gradient">Reservation</span>
+            Naredite <span className="text-gold-gradient">Rezervacijo</span>
           </h2>
           <p className="text-gray-400 font-inter font-light max-w-xl mx-auto">
-            Experience an unforgettable evening. Reserve your table and let us
-            create a memorable dining experience for you.
+            Doživite nepozaben večer. Rezervirajte svojo mizo in dovolite nam,
+            da ustvarimo nepozabno kulinarično izkušnjo za vas.
           </p>
           <div className="w-24 h-px bg-gold mx-auto mt-8" />
         </motion.div>
@@ -80,17 +139,17 @@ export function Reservation() {
               <CheckIcon className="w-8 h-8 text-gold" />
             </div>
             <h3 className="font-playfair text-3xl text-white mb-4">
-              Reservation Confirmed
+              Rezervacija Potrjena
             </h3>
             <p className="text-gray-400 font-inter font-light mb-8">
-              Thank you for choosing Prime & Oak. A confirmation email has been
-              sent to {formData.email}. We look forward to welcoming you.
+              Hvala, ker ste izbrali Prime & Oak. Potrditveno sporočilo je bilo
+              poslano na {formData.email}. Veselimo se vašega obiska.
             </p>
             <button 
               onClick={() => setIsSubmitted(false)} 
               className="text-gold font-inter text-sm tracking-wider uppercase hover:text-gold-light transition-colors"
             >
-              Make Another Reservation
+              Naredite novo rezervacijo
             </button>
           </motion.div>
         ) : (
@@ -102,10 +161,9 @@ export function Reservation() {
             className="bg-black-card/80 backdrop-blur-sm border border-white/10 p-8 md:p-12"
           >
             <div className="grid md:grid-cols-2 gap-8">
-              {/* Name */}
               <div>
                 <label className="block text-sm text-gray-400 font-inter mb-2 tracking-wider uppercase">
-                  Full Name *
+                  Polno Ime *
                 </label>
                 <input 
                   type="text" 
@@ -114,14 +172,13 @@ export function Reservation() {
                   onChange={handleChange} 
                   required 
                   className="w-full bg-black-rich border border-white/10 px-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors" 
-                  placeholder="John Smith" 
+                  placeholder="Janez Novak" 
                 />
               </div>
 
-              {/* Email */}
               <div>
                 <label className="block text-sm text-gray-400 font-inter mb-2 tracking-wider uppercase">
-                  Email Address *
+                  Email Naslov *
                 </label>
                 <div className="relative">
                   <MailIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600" />
@@ -132,15 +189,14 @@ export function Reservation() {
                     onChange={handleChange} 
                     required 
                     className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors" 
-                    placeholder="john@example.com" 
+                    placeholder="janez@primer.si" 
                   />
                 </div>
               </div>
 
-              {/* Phone */}
               <div>
                 <label className="block text-sm text-gray-400 font-inter mb-2 tracking-wider uppercase">
-                  Phone Number *
+                  Telefonska Številka *
                 </label>
                 <div className="relative">
                   <PhoneIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600" />
@@ -151,15 +207,14 @@ export function Reservation() {
                     onChange={handleChange} 
                     required 
                     className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors" 
-                    placeholder="(555) 123-4567" 
+                    placeholder="040 123 456" 
                   />
                 </div>
               </div>
 
-              {/* Date */}
               <div>
                 <label className="block text-sm text-gray-400 font-inter mb-2 tracking-wider uppercase">
-                  Date *
+                  Datum *
                 </label>
                 <div className="relative">
                   <CalendarIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600" />
@@ -169,39 +224,15 @@ export function Reservation() {
                     value={formData.date} 
                     onChange={handleChange} 
                     required 
+                    min={new Date().toISOString().split('T')[0]}
                     className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors" 
                   />
                 </div>
               </div>
 
-              {/* Time */}
               <div>
                 <label className="block text-sm text-gray-400 font-inter mb-2 tracking-wider uppercase">
-                  Time *
-                </label>
-                <div className="relative">
-                  <ClockIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600" />
-                  <select 
-                    name="time" 
-                    value={formData.time} 
-                    onChange={handleChange} 
-                    required 
-                    className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer"
-                  >
-                    <option value="">Select Time</option>
-                    {timeSlots.map(time => (
-                      <option key={time} value={time}>
-                        {time}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Guests */}
-              <div>
-                <label className="block text-sm text-gray-400 font-inter mb-2 tracking-wider uppercase">
-                  Number of Guests *
+                  Število Oseb *
                 </label>
                 <div className="relative">
                   <UsersIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600" />
@@ -214,18 +245,59 @@ export function Reservation() {
                   >
                     {[1, 2, 3, 4, 5, 6, 7, 8].map(num => (
                       <option key={num} value={num}>
-                        {num} {num === 1 ? 'Guest' : 'Guests'}
+                        {num} {num === 1 ? 'Oseba' : num === 2 ? 'Osebi' : num <= 4 ? 'Osebe' : 'Oseb'}
                       </option>
                     ))}
-                    <option value="9+">9+ Guests (Private Dining)</option>
+                    <option value="9+">9+ Oseb (Pokličite nas)</option>
                   </select>
                 </div>
               </div>
 
-              {/* Occasion */}
+              <div>
+                <label className="block text-sm text-gray-400 font-inter mb-2 tracking-wider uppercase">
+                  Čas *
+                </label>
+                <div className="relative">
+                  <ClockIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600" />
+                  <select 
+                    name="time" 
+                    value={formData.time} 
+                    onChange={handleChange} 
+                    required 
+                    disabled={loadingSlots || !formData.date || formData.guests === '9+'}
+                    className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <option value="">
+                      {loadingSlots 
+                        ? 'Nalagam proste termine...' 
+                        : !formData.date 
+                        ? 'Najprej izberite datum' 
+                        : formData.guests === '9+'
+                        ? 'Pokličite nas za rezervacijo'
+                        : availableSlots.length === 0 
+                        ? 'Ni prostih terminov' 
+                        : 'Izberite čas'}
+                    </option>
+                    {availableSlots.map(slot => (
+                      <option key={slot} value={slot}>
+                        {slot}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                {!loadingSlots && formData.date && formData.guests !== '9+' && (
+                  <p className="text-gray-500 text-xs font-inter mt-2">
+                    {availableSlots.length > 0 
+                      ? `${availableSlots.length} ${availableSlots.length === 1 ? 'prost termin' : 'prosti termini'}`
+                      : 'Za izbrani datum ni prostih terminov. Poskusite drug datum ali nas pokličite.'}
+                  </p>
+                )}
+              </div>
+
               <div className="md:col-span-2">
                 <label className="block text-sm text-gray-400 font-inter mb-2 tracking-wider uppercase">
-                  Special Occasion
+                  Posebna Priložnost
                 </label>
                 <select 
                   name="occasion" 
@@ -241,10 +313,9 @@ export function Reservation() {
                 </select>
               </div>
 
-              {/* Special Requests */}
               <div className="md:col-span-2">
                 <label className="block text-sm text-gray-400 font-inter mb-2 tracking-wider uppercase">
-                  Special Requests
+                  Posebne Želje
                 </label>
                 <textarea 
                   name="requests" 
@@ -252,12 +323,11 @@ export function Reservation() {
                   onChange={handleChange} 
                   rows={4} 
                   className="w-full bg-black-rich border border-white/10 px-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors resize-none" 
-                  placeholder="Dietary restrictions, seating preferences, or any special requests..." 
+                  placeholder="Prehranske omejitve, želje glede sedeža ali katere koli druge posebne želje..." 
                 />
               </div>
             </div>
 
-            {/* Submit Button */}
             <div className="mt-10 text-center">
               <motion.button 
                 type="submit" 
@@ -265,10 +335,10 @@ export function Reservation() {
                 whileTap={{ scale: 0.98 }} 
                 className="px-12 py-4 bg-gold text-black-rich font-inter font-semibold tracking-wider uppercase text-sm gold-glow transition-all duration-500 hover:bg-gold-light"
               >
-                Confirm Reservation
+                Potrdi Rezervacijo
               </motion.button>
               <p className="text-gray-500 text-sm font-inter mt-4">
-                For parties of 9 or more, please call us at (555) 123-4567
+                Za skupine od 9 ali več oseb nas pokličite na 040 123 456
               </p>
             </div>
           </motion.form>

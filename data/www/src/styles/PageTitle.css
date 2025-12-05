@@ -2,6 +2,7 @@
   padding: var(--spacing-xl) var(--spacing-md);
   background-color: var(--color-secondary);
   text-align: center;
+  padding-top: 10rem;
 }
 
 .PageTitle h1 {

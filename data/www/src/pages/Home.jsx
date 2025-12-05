@@ -11,7 +11,6 @@ import Navigation from '../components/Navigation'
 export default function SteakhouseLanding() {
   return (
     <>
-      <Navigation />
       <main>
         <Hero />
         <About />

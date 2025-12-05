@@ -31,7 +31,7 @@ try {
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user && $geslo === $user['geslo']) {
+    if ($user && password_verify($geslo, $user['geslo'])) {
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['ime'] = $user['ime'];
         $_SESSION['priimek'] = $user['priimek'];
