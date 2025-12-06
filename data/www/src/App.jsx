@@ -8,12 +8,14 @@ import Menu from './pages/Menu'
 import Mize from './pages/Mize'
 import Contact from './pages/Contact'
 import { UserContextProvider } from './context/UserContext';
+import ScrollToTop from './components/ScrollToTop'
 import './App.css'
 import Navigation from './components/Navigation'
 
 function AppContent() {
   return (
     <>
+      <ScrollToTop />
       <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />

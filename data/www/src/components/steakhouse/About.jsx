@@ -25,7 +25,7 @@ export function About() {
           >
             <div className="relative aspect-[4/5] overflow-hidden">
               <img 
-                src="https://images.unsplash.com/photo-1600891964092-4316c288032e?q=80&w=2070&auto=format&fit=crop" 
+                src="/assets/fotojj-p-48.jpg" 
                 alt="Premium aged steak on wooden board" 
                 className="w-full h-full object-cover" 
               />
@@ -40,7 +40,7 @@ export function About() {
               className="absolute -bottom-8 -right-8 w-48 h-48 lg:w-64 lg:h-64 hidden md:block"
             >
               <img 
-                src="https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=2031&auto=format&fit=crop" 
+                src="/assets/fotojj-p-94.jpg" 
                 alt="Restaurant interior ambiance" 
                 className="w-full h-full object-cover shadow-2xl" 
               />
