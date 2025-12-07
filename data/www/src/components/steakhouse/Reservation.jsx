@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { CalendarIcon, ClockIcon, UsersIcon, PhoneIcon, MailIcon, CheckIcon } from 'lucide-react';
+import { CalendarIcon, ClockIcon, UsersIcon, PhoneIcon, MailIcon, CheckIcon, AlertCircleIcon, Loader2Icon } from 'lucide-react';
 import { ustvariRezervacijo } from '../../services/rezervacije';
 import { pridobiProsteTermine } from '../../services/termini';
 
@@ -14,6 +14,9 @@ export function Reservation() {
   const [availableSlots, setAvailableSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  const [reservationData, setReservationData] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,6 +29,8 @@ export function Reservation() {
   });
 
   useEffect(() => {
+  // Počakaj 300ms po zadnji spremembi
+  const timer = setTimeout(() => {
     const fetchAvailableSlots = async () => {
       if (!formData.date || !formData.guests) {
         setAvailableSlots([]);
@@ -55,6 +60,10 @@ export function Reservation() {
     };
 
     fetchAvailableSlots();
+  }, 500);
+
+  // Cleanup - prekliči timer če se date/guests spremeni pred 500ms
+  return () => clearTimeout(timer);
   }, [formData.date, formData.guests]);
   
   const handleChange = (e) => {
@@ -71,8 +80,12 @@ export function Reservation() {
     }
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Reset states
+    setIsSubmitting(true);
+    setSubmitError(null);
 
     const reservationDetails = {
       polno_ime: formData.name,
@@ -81,18 +94,43 @@ export function Reservation() {
       datum: formData.date,
       cas_zacetek: formData.time,
       stevilo_oseb: parseInt(formData.guests),
-      posebna_priloznost: formData.occasion,
-      posebne_zelje: formData.requests
+      posebna_priloznost: formData.occasion || null,
+      posebne_zelje: formData.requests || null
     };
 
-    ustvariRezervacijo(reservationDetails)
-      .then(response => {
-        console.log('Reservation created:', response);
+    try {
+      const response = await ustvariRezervacijo(reservationDetails);
+      console.log('Reservation created:', response);
+      
+      if (response.success) {
+        setReservationData(response);
         setIsSubmitted(true);
-      })
-      .catch(error => {
-        console.error('Error creating reservation:', error);
-      });
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          date: '',
+          time: '',
+          guests: '2',
+          occasion: '',
+          requests: ''
+        });
+      } else {
+        setSubmitError(response.message || 'Prišlo je do napake pri ustvarjanju rezervacije.');
+      }
+    } catch (error) {
+      console.error('Error creating reservation:', error);
+      setSubmitError('Prišlo je do napake pri povezavi s strežnikom. Prosimo poskusite znova.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleNewReservation = () => {
+    setIsSubmitted(false);
+    setSubmitError(null);
+    setReservationData(null);
   };
   
   const occasions = ['Brez', 'Rojstni dan', 'Obletnica', 'Poslovno kosilo', 'Zmenek', 'Praznovanje', 'Drugo'];
@@ -141,12 +179,36 @@ export function Reservation() {
             <h3 className="font-playfair text-3xl text-white mb-4">
               Rezervacija Potrjena
             </h3>
-            <p className="text-gray-400 font-inter font-light mb-8">
-              Hvala, ker ste izbrali Prime & Oak. Potrditveno sporočilo je bilo
-              poslano na {formData.email}. Veselimo se vašega obiska.
+            <p className="text-gray-400 font-inter font-light mb-2">
+              Hvala, ker ste izbrali Jack & Joe. Potrditveno sporočilo je bilo
+              poslano na <span className="text-white">{formData.email}</span>.
+            </p>
+            
+            {reservationData && (
+              <div className="bg-black-rich/50 border border-gold/10 p-6 my-6 text-left">
+                <h4 className="font-playfair text-xl text-gold mb-4">Podrobnosti rezervacije:</h4>
+                <div className="space-y-2 text-sm font-inter">
+                  <p className="text-gray-400">
+                    <span className="text-white font-medium">Rezervacijska št.:</span> #{reservationData.reservation_id}
+                  </p>
+                  <p className="text-gray-400">
+                    <span className="text-white font-medium">Miza št.:</span> {reservationData.table_id}
+                  </p>
+                  {reservationData.email_sent && (
+                    <p className="text-green-400 flex items-center gap-2 mt-4">
+                      <CheckIcon className="w-4 h-4" />
+                      Email potrditev uspešno poslana
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+            
+            <p className="text-gray-500 font-inter text-sm mb-8">
+              Veselimo se vašega obiska.
             </p>
             <button 
-              onClick={() => setIsSubmitted(false)} 
+              onClick={handleNewReservation}
               className="text-gold font-inter text-sm tracking-wider uppercase hover:text-gold-light transition-colors"
             >
               Naredite novo rezervacijo
@@ -160,6 +222,32 @@ export function Reservation() {
             onSubmit={handleSubmit} 
             className="bg-black-card/80 backdrop-blur-sm border border-white/10 p-8 md:p-12"
           >
+            {/* Error Message */}
+            {submitError && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-8 p-4 bg-red-500/10 border border-red-500/20 flex items-start gap-3"
+              >
+                <AlertCircleIcon className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <h4 className="text-red-500 font-inter font-semibold text-sm mb-1">
+                    Napaka pri rezervaciji
+                  </h4>
+                  <p className="text-red-400 font-inter text-sm font-light">
+                    {submitError}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSubmitError(null)}
+                  className="text-red-500 hover:text-red-400 transition-colors"
+                >
+                  ✕
+                </button>
+              </motion.div>
+            )}
+
             <div className="grid md:grid-cols-2 gap-8">
               <div>
                 <label className="block text-sm text-gray-400 font-inter mb-2 tracking-wider uppercase">
@@ -171,7 +259,8 @@ export function Reservation() {
                   value={formData.name} 
                   onChange={handleChange} 
                   required 
-                  className="w-full bg-black-rich border border-white/10 px-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors" 
+                  disabled={isSubmitting}
+                  className="w-full bg-black-rich border border-white/10 px-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
                   placeholder="Janez Novak" 
                 />
               </div>
@@ -188,7 +277,8 @@ export function Reservation() {
                     value={formData.email} 
                     onChange={handleChange} 
                     required 
-                    className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors" 
+                    disabled={isSubmitting}
+                    className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
                     placeholder="janez@primer.si" 
                   />
                 </div>
@@ -206,7 +296,8 @@ export function Reservation() {
                     value={formData.phone} 
                     onChange={handleChange} 
                     required 
-                    className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors" 
+                    disabled={isSubmitting}
+                    className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
                     placeholder="040 123 456" 
                   />
                 </div>
@@ -224,8 +315,9 @@ export function Reservation() {
                     value={formData.date} 
                     onChange={handleChange} 
                     required 
+                    disabled={isSubmitting}
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors" 
+                    className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
                   />
                 </div>
               </div>
@@ -241,14 +333,14 @@ export function Reservation() {
                     value={formData.guests} 
                     onChange={handleChange} 
                     required 
-                    className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer"
+                    disabled={isSubmitting}
+                    className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {[1, 2, 3, 4, 5, 6, 7, 8].map(num => (
                       <option key={num} value={num}>
                         {num} {num === 1 ? 'Oseba' : num === 2 ? 'Osebi' : num <= 4 ? 'Osebe' : 'Oseb'}
                       </option>
                     ))}
-                    <option value="9+">9+ Oseb (Pokličite nas)</option>
                   </select>
                 </div>
               </div>
@@ -264,7 +356,7 @@ export function Reservation() {
                     value={formData.time} 
                     onChange={handleChange} 
                     required 
-                    disabled={loadingSlots || !formData.date || formData.guests === '9+'}
+                    disabled={loadingSlots || !formData.date || formData.guests === '9+' || isSubmitting}
                     className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <option value="">
@@ -295,7 +387,7 @@ export function Reservation() {
                 )}
               </div>
 
-              <div className="md:col-span-2">
+              <div className="md:col-span-2" style={{ marginTop: '-8px' }}>
                 <label className="block text-sm text-gray-400 font-inter mb-2 tracking-wider uppercase">
                   Posebna Priložnost
                 </label>
@@ -303,7 +395,8 @@ export function Reservation() {
                   name="occasion" 
                   value={formData.occasion} 
                   onChange={handleChange} 
-                  className="w-full bg-black-rich border border-white/10 px-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer"
+                  disabled={isSubmitting}
+                  className="w-full bg-black-rich border border-white/10 px-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {occasions.map(occ => (
                     <option key={occ} value={occ}>
@@ -322,7 +415,8 @@ export function Reservation() {
                   value={formData.requests} 
                   onChange={handleChange} 
                   rows={4} 
-                  className="w-full bg-black-rich border border-white/10 px-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors resize-none" 
+                  disabled={isSubmitting}
+                  className="w-full bg-black-rich border border-white/10 px-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors resize-none disabled:opacity-50 disabled:cursor-not-allowed" 
                   placeholder="Prehranske omejitve, želje glede sedeža ali katere koli druge posebne želje..." 
                 />
               </div>
@@ -331,11 +425,19 @@ export function Reservation() {
             <div className="mt-10 text-center">
               <motion.button 
                 type="submit" 
-                whileHover={{ scale: 1.02 }} 
-                whileTap={{ scale: 0.98 }} 
-                className="px-12 py-4 bg-gold text-black-rich font-inter font-semibold tracking-wider uppercase text-sm gold-glow transition-all duration-500 hover:bg-gold-light"
+                disabled={isSubmitting}
+                whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+                className="relative px-12 py-4 bg-gold text-black-rich font-inter font-semibold tracking-wider uppercase text-sm gold-glow transition-all duration-500 hover:bg-gold-light disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden min-w-[240px]"
               >
-                Potrdi Rezervacijo
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center gap-3">
+                    <Loader2Icon className="w-5 h-5 animate-spin" />
+                    Obdelujem rezervacijo...
+                  </span>
+                ) : (
+                  'Potrdi Rezervacijo'
+                )}
               </motion.button>
               <p className="text-gray-500 text-sm font-inter mt-4">
                 Za skupine od 9 ali več oseb nas pokličite na 040 123 456

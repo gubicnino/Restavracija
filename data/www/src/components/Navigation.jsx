@@ -43,9 +43,6 @@ export default function Navigation() {
   }, {
     name: 'Kontakt',
     href: '/kontakt'
-  },{
-    name: 'Mize',
-    href: '/mize'
   }];
   return ( <>
       <motion.header initial={{
@@ -58,14 +55,14 @@ export default function Navigation() {
     }} className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-black-rich/95 backdrop-blur-md' : 'bg-transparent'}`}>
         <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}
-          <NavLink to="/" className="font-playfair text-2xl text-white">
+          <NavLink to="/" className="font-playfair text-2xl text-white"  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <img src="/assets/logo-gold-200.png" alt="Logo" style={{width: "100px", marginBottom: "16px"}} />
           </NavLink>
 
           {/* Desktop Navigation */}
           <ul className="hidden md:flex items-center gap-8">
             {navLinks.map(link => <li key={link.name}>
-                <NavLink to={link.href} className="text-gray-300 font-inter text-sm tracking-wider uppercase hover:text-gold transition-colors duration-300">
+                <NavLink to={link.href} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-300 font-inter text-base tracking-wider uppercase hover:text-gold transition-colors duration-300">
                   {link.name}
                 </NavLink>
               </li>)}

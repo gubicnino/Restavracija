@@ -1,112 +1,174 @@
-import '../styles/Menu.css';
+import React, { useState, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import PageTitle from '../components/common/PageTitle';
-function Menu() {
+import MenuPreview from '../components/steakhouse/MenuPreview';
+export default function Menu() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const [activeCategory, setActiveCategory] = useState(0);
+
+  const menuData = [
+  {
+    name: 'Burgers',
+    items: [
+      {
+        name: 'Smash',
+        description: 'Hlebček, 2x "smash" hrustljava pleskavica iz zorjene slovenske govedine, 2x cheddar sir, 2x slanina, hišna omaka, popečena čebula, kisle kumarice',
+        price: '13,60',
+        image: '/assets/menu/burgers/smash burger.avif',
+        tag: "Chef's Choice"
+      },
+      {
+        name: 'Cheese Junkie',
+        description: 'Črn hlebček, meso, "Bergkäse", dvojna slanina, rukola, ocvrta čebula, pomfri, omaka, injekcija cheddar sira in injekcija smokey BBQ omake',
+        price: '14,60',
+        image: '/assets/menu/burgers/cheese junkie.avif',
+        tag: 'Premium'
+      },
+      {
+        name: 'King Kong',
+        description: 'Hlebček, tri polpete, cheddar sir, hrustljava slanina, čebula, kisla kumarica, omaka, solata',
+        price: '20,59',
+        image: '/assets/menu/burgers/king kong.avif'
+      },
+      {
+        name: 'Jack & Joe',
+        description: 'Črn hlebček, meso, rezine pljučne na žaru, tartufi, tartufata, cheddar sir, omaka, hrustljava slanina, omaka, rukola',
+        price: '19,59',
+        image: '/assets/menu/burgers/jack and joe.avif'
+      }
+    ]
+  },
+  {
+    name: 'Pizze',
+    items: [
+      {
+        name: 'Pizza Margerita',
+        description: 'Pelati, sir mozzarella Fior Di Latte, bazilika',
+        price: '12,60',
+        image: '/assets/menu/pizze/margerita.avif'
+      },
+      {
+        name: 'Pizza Mortadela in tartufi',
+        description: 'Zelena omaka, sir mozzarella Fior Di Latte, pol sušeni paradižniki, mortadela, buratta, pistacije, olje s tartufi',
+        price: '16,60',
+        image: '/assets/menu/pizze/mortadela in tartufi.avif'
+      },
+      {
+        name: 'Pizza Jack Wurst',
+        description: 'Zelena omaka, specialna mešanica sirov, domača salsiccia, slanina, salama, rdeča čebula, domača gorčična omaka',
+        price: '14,20',
+        image: '/assets/menu/pizze/jack wurst.avif'
+      },
+      {
+        name: 'Pizza Carpaccio',
+        description: 'Green sauce, posebna mešanica sirov, carpaccio, tartufata',
+        price: '15,60',
+        image: '/assets/menu/pizze/carpaccio.avif'
+      }
+    ]
+  },
+  {
+    name: 'Ostale jedi',
+    items: [
+      {
+        name: 'Dimljena rebrca',
+        description: 'Dimljena rebrca (500 g) z BBQ in curryjevo omako, domač pomfri',
+        price: '18,59',
+        image: '/assets/menu/ostale jedi/dimljena rebrca.avif'
+      },
+      {
+        name: 'Buffalo perutničke s prilogo',
+        description: 'Buffalo perutničke (45 dag) z buffalo omako, dollar chips, kisla smetana',
+        price: '15,90',
+        image: '/assets/menu/ostale jedi/buffalo perutničke s prilogo.avif'
+      },
+      {
+        name: 'Sticky fingers z dollar chipsom',
+        description: 'Sticky fingers z BBQ in curryjevo omako, dollar chips',
+        price: '13,90',
+        image: '/assets/menu/ostale jedi/sticky fingers z dollar chipsom.avif'
+      },
+      {
+        name: 'Perutničke s prilogo',
+        description: 'Perutničke (45 dag) z BBQ in curryjevo omako, dollar chips',
+        price: '14,89',
+        image: '/assets/menu/ostale jedi/perutničke s prilogo.avif'
+      }
+    ]
+  }
+];
+
   return (
-    <div className="menu">
-      <PageTitle title="Meni" description="Odkrijte našo ponudbo vrhunskih steakov in jedi" />
+    <div className="bg-black-rich">
+      {/* Hero Section */}
+      <PageTitle
+        PageTitle="Naš Meni"
+        title="Odkrijte našo ponudbo"
+        titleGold="vrhunskih jedi"
+        backgroundImage="/assets/naslovna6-fotojj-l-big-19.jpg"
+      />
 
-      <div className="menu-content">
-        <div className="menu-category">
-          <h2>Premium Steaki</h2>
-          <div className="menu-items">
-            <div className="menu-item">
-              <div className="menu-item-header">
-                <h3>Ribeye Steak</h3>
-                <span className="menu-item-price">42€</span>
-              </div>
-              <p className="menu-item-description">
-                300g najboljšega ribeye steaka, zorjen 28 dni, z bogatim okusom in marmorirano strukturo.
-                Postreženo z žarjeno zelenjavo in domačim krompirjem.
-              </p>
-            </div>
+      {/* Menu Section */}
+      <MenuPreview
+        menuData={menuData}
+        showViewAllLink={false}
+      />
 
-            <div className="menu-item">
-              <div className="menu-item-header">
-                <h3>Filet Mignon</h3>
-                <span className="menu-item-price">48€</span>
+      {/* Special Info Section */}
+      <section className="relative py-20 px-6 bg-black-card">
+        <div className="relative max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="p-6"
+            >
+              <div className="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-gold text-2xl">🥩</span>
               </div>
-              <p className="menu-item-description">
-                250g najbolj nežnega steaka, popolnoma zrezek, postrežen z zelenjavo po izbiri 
-                in trufljevim pirejem.
+              <h3 className="font-playfair text-xl text-white mb-2">Premium Meso</h3>
+              <p className="text-gray-400 font-inter text-sm font-light">
+                Black Angus govedina, suho zorjena 45+ dni
               </p>
-            </div>
+            </motion.div>
 
-            <div className="menu-item">
-              <div className="menu-item-header">
-                <h3>T-Bone Steak</h3>
-                <span className="menu-item-price">52€</span>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="p-6"
+            >
+              <div className="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-gold text-2xl">🌿</span>
               </div>
-              <p className="menu-item-description">
-                450g klasičnega T-bone steaka, kombinacija fileya in striploina. 
-                Postreženo z pečenim krompirjem in sezonsko zelenjavo.
+              <h3 className="font-playfair text-xl text-white mb-2">Sveže Sestavine</h3>
+              <p className="text-gray-400 font-inter text-sm font-light">
+                Lokalni dobavitelji in sezonski proizvodi
               </p>
-            </div>
+            </motion.div>
 
-            <div className="menu-item">
-              <div className="menu-item-header">
-                <h3>Wagyu Ribeye</h3>
-                <span className="menu-item-price">85€</span>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="p-6"
+            >
+              <div className="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-gold text-2xl">👨‍🍳</span>
               </div>
-              <p className="menu-item-description">
-                200g japonskega wagyu mesa A5 kakovosti. Neprimerljiv okus in tekstura, 
-                najboljša izbira za prave ljubitelje mesa.
+              <h3 className="font-playfair text-xl text-white mb-2">Odprta Kuhinja</h3>
+              <p className="text-gray-400 font-inter text-sm font-light">
+                Spremljajte pripravo vaših jedi v živo
               </p>
-            </div>
+            </motion.div>
           </div>
         </div>
-
-        <div className="menu-category">
-          <h2>Predjedi</h2>
-          <div className="menu-items">
-            <div className="menu-item">
-              <div className="menu-item-header">
-                <h3>Carpaccio iz govejega fileya</h3>
-                <span className="menu-item-price">16€</span>
-              </div>
-              <p className="menu-item-description">
-                Tanko narezani filé, parmezan, rucola, trufljev olje in limona.
-              </p>
-            </div>
-
-            <div className="menu-item">
-              <div className="menu-item-header">
-                <h3>Tatarski biftek</h3>
-                <span className="menu-item-price">18€</span>
-              </div>
-              <p className="menu-item-description">
-                Ročno sekljano goveje meso, kaprami, rdečo čebulo in svežo rumenjak.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="menu-category">
-          <h2>Priloge</h2>
-          <div className="menu-items">
-            <div className="menu-item">
-              <div className="menu-item-header">
-                <h3>Trufljev pire</h3>
-                <span className="menu-item-price">8€</span>
-              </div>
-              <p className="menu-item-description">
-                Kremast krompirjev pire s svežim trufljem.
-              </p>
-            </div>
-
-            <div className="menu-item">
-              <div className="menu-item-header">
-                <h3>Žarjena zelenjava</h3>
-                <span className="menu-item-price">7€</span>
-              </div>
-              <p className="menu-item-description">
-                Sezonska zelenjava, žarjena do popolnosti.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
     </div>
   );
 }
-
-export default Menu;

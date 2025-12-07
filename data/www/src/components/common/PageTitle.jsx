@@ -14,7 +14,7 @@ export default function PageTitle({ PageTitle, title, titleGold, backgroundImage
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <section ref={heroRef} className="relative h-[50vh] w-full overflow-hidden">
+    <section ref={heroRef} className="relative h-[60vh] w-full overflow-hidden">
         {/* Parallax Background */}
         <motion.div style={{ y }} className="absolute inset-0 w-full h-[120%]">
           <div 

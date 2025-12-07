@@ -1,3 +1,11 @@
+#custom
+
+data/php/.env
+data/php/.env.local
+data/php/.env.*.local
+
+
+
 # Node modules
 data/www/node_modules/
 
