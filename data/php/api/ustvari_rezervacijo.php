@@ -1,4 +1,5 @@
 <?php
+ob_start();
 header('Content-Type: application/json');
 $allowed_origins = ['http://localhost:5173', 'http://127.0.0.1:5173'];
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
@@ -375,6 +376,7 @@ try {
         // Log error but don't fail the reservation
         error_log("Email send failed: " . $e->getMessage());
     }
+    ob_clean();
 
     // Return success response
     echo json_encode([
@@ -409,4 +411,5 @@ try {
         'error' => $e->getMessage()
     ]);
 }
+ob_end_flush();
 ?>

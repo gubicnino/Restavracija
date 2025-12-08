@@ -1,4 +1,5 @@
 #custom
+.env
 
 data/php/.env
 data/php/.env.local

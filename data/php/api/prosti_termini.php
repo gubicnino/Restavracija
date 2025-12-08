@@ -37,9 +37,9 @@ $sql2 = '
         TIME_FORMAT(r.cas_zacetek, "%H:%i") AS cas_zacetek,
         TIME_FORMAT(r.cas_konec, "%H:%i") AS cas_konec,
         r.status
-    FROM TableEntity t
-    LEFT JOIN Reservation_Table rt ON t.table_id = rt.table_id
-    LEFT JOIN Reservation r ON rt.reservation_id = r.reservation_id 
+    FROM tableentity t
+    LEFT JOIN reservation_Table rt ON t.table_id = rt.table_id
+    LEFT JOIN reservation r ON rt.reservation_id = r.reservation_id 
         AND r.datum = :datum 
         AND r.status IN ("pending", "confirmed")
     WHERE t.kapaciteta >= :stevilo_oseb
@@ -89,6 +89,19 @@ function sePrekriva($nov_zacetek, $nov_konec, $obstojen_zacetek, $obstojen_konec
     $oz = strtotime($obstojen_zacetek);
     $ok = strtotime($obstojen_konec);
 
+    // Če se konec zgodi "pred" začetkom, pomeni da gre čez polnoč - dodaj 24 ur
+    if ($nk <= $nz) {
+        $nk += 86400; // 24 ur v sekundah
+    }
+    if ($ok <= $oz) {
+        $ok += 86400;
+    }
+
+    // Preverimo vse možne primere prekrivanja:
+    // 1. Nov termin se začne med obstoječim terminom
+    // 2. Nov termin se konča med obstoječim terminom
+    // 3. Nov termin popolnoma vsebuje obstoječi termin
+    // 4. Obstoječi termin popolnoma vsebuje nov termin
     return ($nz < $ok && $nk > $oz);
 }
 
@@ -103,8 +116,7 @@ $mozni_termini = [
     "19:00", "19:30",
     "20:00", "20:30",
     "21:00", "21:30",
-    "22:00", "22:30",
-    "23:00", "23:30"
+    "22:00"
 ];
 
 $prosti_termini = [];
