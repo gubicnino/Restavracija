@@ -23,6 +23,7 @@ export default function LoginForm({ onSuccess }) {
       
       if (response.success) {
         login(response.user);
+        navigate('/');
         
         // Close modal if onSuccess was provided
         if (onSuccess) {

@@ -8,7 +8,7 @@ import ReservationForm from './ReservationForm';
 import { useUser } from '../context/UserContext';
 export default function Navigation() {
   const navigate = useNavigate();
-  const { isLoggedIn, logout } = useUser();
+  const { isLoggedIn, logout, currentUser } = useUser();
   const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
   const handleReservationClick = (e) => {
       setIsReservationModalOpen(true);
@@ -36,9 +36,6 @@ export default function Navigation() {
   }, {
     name: 'Kontakt',
     href: '/kontakt'
-  },{
-    name: 'Admin',
-    href: '/dashboard'
   }];
   return ( <>
       <motion.header initial={{
@@ -60,6 +57,11 @@ export default function Navigation() {
             {navLinks.map(link => <li key={link.name}>
                 <NavLink to={link.href} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-300 font-inter text-base tracking-wider uppercase hover:text-gold transition-colors duration-300">
                   {link.name}
+                </NavLink>
+              </li>)}
+            {isLoggedIn && (currentUser.vloga === 'administrator' || currentUser.vloga === 'upravljalec') && (<li>
+                <NavLink to="/dashboard" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-300 font-inter text-base tracking-wider uppercase hover:text-gold transition-colors duration-300">
+                  Admin Panel
                 </NavLink>
               </li>)}
           </ul>

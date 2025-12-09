@@ -59,6 +59,7 @@ try {
     $_SESSION['priimek'] = $priimek;
     $_SESSION['email'] = $email;
     $_SESSION['logged_in'] = true;
+    $_SESSION['vloga'] = 'brez';
 
     echo json_encode([
         'success' => true,
@@ -67,7 +68,8 @@ try {
             'id' => $userId,
             'ime' => $ime,
             'priimek' => $priimek,
-            'email' => $email
+            'email' => $email,
+            'vloga' => 'brez'
         ]
     ]);
 

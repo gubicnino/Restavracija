@@ -1,17 +1,20 @@
 import api from './api';
 
 // Login
-export const login = (credentials) => 
-  api.post('/api/login.php', credentials).then(res => res.data);
+export const login = (credentials) => {
+  return api.post('/api/login.php', credentials).then(res => res.data);
+};
 
 // Register
-export const register = (userData) => 
-  api.post('/api/register.php', userData).then(res => res.data);
+export const register = (userData) => {
+  return api.post('/api/register.php', userData).then(res => res.data);
+};
 
 // Logout
-export const logout = () => 
+export const logout = () => {
   api.post('/api/logout.php').then(res => res.data);
-
+  clearUserFromStorage();
+};
 // Check authentication status
 export const checkAuth = () => 
   api.get('/api/check.php').then(res => res.data);

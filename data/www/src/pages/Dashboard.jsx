@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Calendar, Clock, Check } from 'lucide-react';
-import StatsCard from '../components/admin/StatsCard';
-import ReservationFilters from '../components/admin/ReservationFilters';
-import ReservationTable from '../components/admin/ReservationTable';
-import ReservationCard from '../components/admin/ReservationCard';
+import { useUser } from '../context/UserContext';
+import DashboardSidebar from '../components/admin/DashboardSidebar';
+import ReservationsTab from '../components/admin/tabs/ReservationsTab';
+import UsersTab from '../components/admin/tabs/UsersTab';
+import StatisticsTab from '../components/admin/tabs/StatisticsTab';
+import TablesTab from '../components/admin/tabs/TablesTab';
 import { pridobiRezervacije } from '../services/rezervacije';
 import { potrdiRezervacijo, zavrniRezervacijo, urediRezervacijo, izbrisiRezervacijo } from '../services/rezervacije';
 
 export default function Dashboard() {
-    const [filter, setFilter] = useState('all');
-    const [searchTerm, setSearchTerm] = useState('');
+    const [activeTab, setActiveTab] = useState('reservations');
     const [reservations, setReservations] = useState([]);
     const [waitingReservations, setWaitingReservations] = useState([]);
     const [confirmedReservations, setConfirmedReservations] = useState([]);
@@ -56,71 +56,61 @@ export default function Dashboard() {
         setCardsData(data.data);
     };
 
-    const filteredReservations = reservations.filter(reservation => {
-        const dateString = new Date(reservation.datum).toLocaleDateString('sl-SI', { day: 'numeric', month: 'long', year: 'numeric' });
-        const matchesSearch = searchTerm === '' ||
-            reservation.polno_ime.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            reservation.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            dateString.toLowerCase().includes(searchTerm.toLowerCase());
-
-        const matchesFilter = filter === 'all' || reservation.status === filter ||
-            (filter === 'today' && reservation.datum === new Date().toISOString().split('T')[0]);
-
-        return matchesSearch && matchesFilter;
-    });
-
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-black-rich via-gray-900 to-black-rich pt-24 pb-12">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Header */}
-                <div className="mb-8 text-center pt-24 ">
-                    <h1 className="font-playfair text-4xl md:text-5xl text-white mb-2">
-                        Dashboard
-                    </h1>
-                    <p className="font-inter text-gray-400">
-                        Upravljanje z rezervacijami
-                    </p>
-                </div>
-
-                {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <StatsCard title="V čakanju" value={waitingReservations.length} icon={Clock} color="yellow" />
-                    <StatsCard title="Potrjeno" value={confirmedReservations.length} icon={Check} color="green" />
-                    <StatsCard title="Danes" value={todayReservations.length} icon={Calendar} color="gold" />
-                </div>
-
-                {/* Filters & Search */}
-                <ReservationFilters 
-                    filter={filter}
-                    setFilter={setFilter}
-                    searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
-                />
-
-                {/* Reservations Table/List */}
-                <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg overflow-hidden">
-                    {/* Desktop Table View */}
-                    <ReservationTable
-                        reservations={filteredReservations}
+    const renderTabContent = () => {
+        const { currentUser } = useUser();
+        switch (activeTab) {
+            case 'reservations':
+                return (
+                    <ReservationsTab
+                        reservations={reservations}
+                        waitingReservations={waitingReservations}
+                        confirmedReservations={confirmedReservations}
+                        todayReservations={todayReservations}
                         onConfirm={handleConfirm}
                         onReject={handleReject}
                         onEdit={handleEdit}
                         onDelete={handleDelete}
                     />
+                );
+            case 'users':
+                if (currentUser?.vloga !== 'administrator') {
+                    return (
+                        <div className="text-center py-12">
+                            <p className="text-red-400 text-lg">Nimate dostopa do te strani.</p>
+                        </div>
+                    );
+                }
+                return <UsersTab />;
+            case 'statistics':
+                return <StatisticsTab />;
+            case 'tables':
+                return <TablesTab />;
+            default:
+                return null;
+        }
+    };
 
-                    {/* Mobile Card View */}
-                    <div className="lg:hidden divide-y divide-gray-700">
-                        {reservations.map((reservation) => (
-                            <ReservationCard
-                                key={reservation.id}
-                                reservation={reservation}
-                                onConfirm={handleConfirm}
-                                onReject={handleReject}
-                                onEdit={handleEdit}
-                                onDelete={handleDelete}
-                            />
-                        ))}
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-black-rich via-gray-900 to-black-rich">
+            <DashboardSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+            
+            <div className="ml-64 pt-24 pb-12">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    {/* Header */}
+                    <div className="mb-8 text-center pt-12">
+                        <h1 className="font-playfair text-4xl md:text-5xl text-white mb-2">
+                            Dashboard
+                        </h1>
+                        <p className="font-inter text-gray-400">
+                            {activeTab === 'reservations' && 'Upravljanje z rezervacijami'}
+                            {activeTab === 'users' && 'Upravljanje uporabnikov'}
+                            {activeTab === 'statistics' && 'Statistike rezervacij'}
+                            {activeTab === 'tables' && 'Upravljanje miz'}
+                        </p>
                     </div>
+
+                    {/* Tab Content */}
+                    {renderTabContent()}
                 </div>
             </div>
         </div>

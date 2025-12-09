@@ -11,6 +11,8 @@ import ScrollToTop from './components/ScrollToTop'
 import './App.css'
 import Navigation from './components/Navigation'
 import Dashboard from './pages/Dashboard'
+import Login from './pages/Login'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function AppContent() {
   return (
@@ -23,7 +25,12 @@ function AppContent() {
         <Route path="/meni" element={<Menu />} />
         <Route path="/kontakt" element={<Contact />} />
         <Route path="/register" element={<RegisterForm />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={
+        <ProtectedRoute requiredRoles={['administrator', 'upravljalec']}>
+          <Dashboard />
+        </ProtectedRoute>
+        } />
+        <Route path="/login" element={<Login />} />
       </Routes>
       <Footer />
     </>
