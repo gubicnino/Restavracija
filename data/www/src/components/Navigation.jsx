@@ -3,25 +3,18 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { MenuIcon, XIcon } from 'lucide-react';
 import Modal from './common/Modal';
-import LoginForm from './auth/LoginForm';
-
+import { GoldButton } from './common/Button';
+import ReservationForm from './ReservationForm';
 import { useUser } from '../context/UserContext';
 export default function Navigation() {
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useUser();
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const handleAccountClick = (e) => {
-    if (!isLoggedIn) {
-      e.preventDefault();
-      setIsLoginModalOpen(true);
-    }
-  };
-  const handleLogout = () => {
-    logout();
-    navigate('/');
+  const [isReservationModalOpen, setIsReservationModalOpen] = useState(false);
+  const handleReservationClick = (e) => {
+      setIsReservationModalOpen(true);
   };
   const handleCloseModal = () => {
-    setIsLoginModalOpen(false); 
+    setIsReservationModalOpen(false); 
   };
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -43,6 +36,9 @@ export default function Navigation() {
   }, {
     name: 'Kontakt',
     href: '/kontakt'
+  },{
+    name: 'Admin',
+    href: '/dashboard'
   }];
   return ( <>
       <motion.header initial={{
@@ -53,7 +49,7 @@ export default function Navigation() {
       duration: 0.6,
       ease: 'easeOut'
     }} className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-black-rich/95 backdrop-blur-md' : 'bg-transparent'}`}>
-        <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <nav className="max-w-7xl mx-auto py-4 flex items-center justify-between">
           {/* Logo */}
           <NavLink to="/" className="font-playfair text-2xl text-white"  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <img src="/assets/logo-gold-200.png" alt="Logo" style={{width: "100px", marginBottom: "16px"}} />
@@ -69,17 +65,9 @@ export default function Navigation() {
           </ul>
 
           {/* CTA Button */}
-          {isLoggedIn ? (
-                <>
-                    <a onClick={handleLogout} className="hidden md:block px-6 py-2 border border-gold text-gold font-inter text-sm tracking-wider uppercase hover:bg-gold hover:text-black-rich transition-all duration-300 cursor-pointer">
-                        Odjava
-                    </a>
-                </>
-                ) : (
-                  <a onClick={handleAccountClick}className="hidden md:block px-6 py-2 border border-gold text-gold font-inter text-sm tracking-wider uppercase hover:bg-gold hover:text-black-rich transition-all duration-300 cursor-pointer">
-                      Prijava
-                  </a>
-          )}
+          <GoldButton onClick={handleReservationClick}>
+            Rezerviraj mizo
+          </GoldButton>
 
           {/* Mobile Menu Button */}
           <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden text-white p-2" aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}>
@@ -131,8 +119,8 @@ export default function Navigation() {
           </motion.a>
         </div>
       </motion.div>
-      <Modal isOpen={isLoginModalOpen} onClose={handleCloseModal}>
-        <LoginForm onSuccess={handleCloseModal} />
+      <Modal isOpen={isReservationModalOpen} onClose={handleCloseModal}>
+        <ReservationForm />
       </Modal>
     </>);
 }

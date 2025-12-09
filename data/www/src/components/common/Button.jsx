@@ -9,7 +9,7 @@ export function GoldButton({
   variant = 'primary', // 'primary' ali 'outline'
   ...props 
 }) {
-  const baseClasses = "group relative px-10 py-4 font-inter font-semibold tracking-wider uppercase text-sm transition-all duration-500";
+  const baseClasses = "group relative px-8 py-4 font-inter font-semibold tracking-wider uppercase text-sm transition-all duration-500";
   
   const variants = {
     primary: "bg-gold text-black-rich gold-glow hover:bg-gold-light",

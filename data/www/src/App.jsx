@@ -10,6 +10,7 @@ import { UserContextProvider } from './context/UserContext';
 import ScrollToTop from './components/ScrollToTop'
 import './App.css'
 import Navigation from './components/Navigation'
+import Dashboard from './pages/Dashboard'
 
 function AppContent() {
   return (
@@ -22,6 +23,7 @@ function AppContent() {
         <Route path="/meni" element={<Menu />} />
         <Route path="/kontakt" element={<Contact />} />
         <Route path="/register" element={<RegisterForm />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
       <Footer />
     </>

@@ -16,14 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once '../config/database.php';
+require_once '../../config/database.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-require '../vendor/autoload.php';
+require '../../vendor/autoload.php';
 
 // Load .env file
 function loadEnv($path) {
@@ -43,7 +43,7 @@ function loadEnv($path) {
 }
 
 // Load environment variables
-loadEnv(__DIR__ . '/../.env');
+loadEnv(__DIR__ . '/../../.env');
 
 $data = json_decode(file_get_contents('php://input'), true);
 
