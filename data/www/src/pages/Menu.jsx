@@ -1,104 +1,103 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import PageTitle from '../components/common/PageTitle';
 import MenuPreview from '../components/steakhouse/MenuPreview';
+import { pridobiMeniIteme } from '../services/meni';
 export default function Menu() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const [activeCategory, setActiveCategory] = useState(0);
+  const [menuData, setMenuData] = useState([]);
 
-  const menuData = [
-  {
-    name: 'Burgers',
-    items: [
-      {
-        name: 'Smash',
-        description: 'Hlebček, 2x "smash" hrustljava pleskavica iz zorjene slovenske govedine, 2x cheddar sir, 2x slanina, hišna omaka, popečena čebula, kisle kumarice',
-        price: '13,60',
-        image: '/assets/menu/burgers/smash burger.avif',
-        tag: "Chef's Choice"
-      },
-      {
-        name: 'Cheese Junkie',
-        description: 'Črn hlebček, meso, "Bergkäse", dvojna slanina, rukola, ocvrta čebula, pomfri, omaka, injekcija cheddar sira in injekcija smokey BBQ omake',
-        price: '14,60',
-        image: '/assets/menu/burgers/cheese junkie.avif',
-        tag: 'Premium'
-      },
-      {
-        name: 'King Kong',
-        description: 'Hlebček, tri polpete, cheddar sir, hrustljava slanina, čebula, kisla kumarica, omaka, solata',
-        price: '20,59',
-        image: '/assets/menu/burgers/king kong.avif'
-      },
-      {
-        name: 'Jack & Joe',
-        description: 'Črn hlebček, meso, rezine pljučne na žaru, tartufi, tartufata, cheddar sir, omaka, hrustljava slanina, omaka, rukola',
-        price: '19,59',
-        image: '/assets/menu/burgers/jack and joe.avif'
+
+  useEffect(() => {
+    pridobiMeniIteme().then(data => {
+      console.log('Pridobljeni meni itemi:', data);
+      const transformedData = transformMenuData(data.data);
+      console.log('Transformed Menu Data:', transformedData);
+      setMenuData(transformedData);
+    });
+  }, []);
+  function transformMenuData(apiData) {
+    // Group by location, then by category
+    const locations = {};
+    const allLocationItems = []; // Shranjujemo vse iteme z lokacijo "vse"
+    
+    apiData.forEach(item => {
+      const locationId = item.lokacija || 'all';
+      const categoryName = item.category_name || item.kategorija;
+      
+      // Če je lokacija "vse", shranimo posebej
+      if (locationId === 'vse' || locationId === 'all') {
+        allLocationItems.push(item);
       }
-    ]
-  },
-  {
-    name: 'Pizze',
-    items: [
-      {
-        name: 'Pizza Margerita',
-        description: 'Pelati, sir mozzarella Fior Di Latte, bazilika',
-        price: '12,60',
-        image: '/assets/menu/pizze/margerita.avif'
-      },
-      {
-        name: 'Pizza Mortadela in tartufi',
-        description: 'Zelena omaka, sir mozzarella Fior Di Latte, pol sušeni paradižniki, mortadela, buratta, pistacije, olje s tartufi',
-        price: '16,60',
-        image: '/assets/menu/pizze/mortadela in tartufi.avif'
-      },
-      {
-        name: 'Pizza Jack Wurst',
-        description: 'Zelena omaka, specialna mešanica sirov, domača salsiccia, slanina, salama, rdeča čebula, domača gorčična omaka',
-        price: '14,20',
-        image: '/assets/menu/pizze/jack wurst.avif'
-      },
-      {
-        name: 'Pizza Carpaccio',
-        description: 'Green sauce, posebna mešanica sirov, carpaccio, tartufata',
-        price: '15,60',
-        image: '/assets/menu/pizze/carpaccio.avif'
+      
+      // Create location if doesn't exist
+      if (!locations[locationId]) {
+        locations[locationId] = {};
       }
-    ]
-  },
-  {
-    name: 'Ostale jedi',
-    items: [
-      {
-        name: 'Dimljena rebrca',
-        description: 'Dimljena rebrca (500 g) z BBQ in curryjevo omako, domač pomfri',
-        price: '18,59',
-        image: '/assets/menu/ostale jedi/dimljena rebrca.avif'
-      },
-      {
-        name: 'Buffalo perutničke s prilogo',
-        description: 'Buffalo perutničke (45 dag) z buffalo omako, dollar chips, kisla smetana',
-        price: '15,90',
-        image: '/assets/menu/ostale jedi/buffalo perutničke s prilogo.avif'
-      },
-      {
-        name: 'Sticky fingers z dollar chipsom',
-        description: 'Sticky fingers z BBQ in curryjevo omako, dollar chips',
-        price: '13,90',
-        image: '/assets/menu/ostale jedi/sticky fingers z dollar chipsom.avif'
-      },
-      {
-        name: 'Perutničke s prilogo',
-        description: 'Perutničke (45 dag) z BBQ in curryjevo omako, dollar chips',
-        price: '14,89',
-        image: '/assets/menu/ostale jedi/perutničke s prilogo.avif'
+      
+      // Create category within location if doesn't exist
+      if (!locations[locationId][categoryName]) {
+        locations[locationId][categoryName] = {
+          name: categoryName,
+          items: []
+        };
       }
-    ]
+      
+      locations[locationId][categoryName].items.push({
+        name: item.ime,
+        description: item.opis,
+        price: item.cena,
+        image: item.slika,
+        tag: item.oznaka || undefined
+      });
+    });
+    
+    // Dodaj vse iteme iz "vse" v ostale lokacije (limbus, lent)
+    const specificLocations = Object.keys(locations).filter(loc => loc !== 'vse' && loc !== 'all');
+    
+    allLocationItems.forEach(item => {
+      const categoryName = item.category_name || item.kategorija;
+      
+      specificLocations.forEach(locationId => {
+        // Create location if doesn't exist
+        if (!locations[locationId]) {
+          locations[locationId] = {};
+        }
+        
+        // Create category within location if doesn't exist
+        if (!locations[locationId][categoryName]) {
+          locations[locationId][categoryName] = {
+            name: categoryName,
+            items: []
+          };
+        }
+        
+        // Dodaj item samo če že ne obstaja (preprečimo duplikate)
+        const itemExists = locations[locationId][categoryName].items.some(
+          existingItem => existingItem.name === item.ime
+        );
+        
+        if (!itemExists) {
+          locations[locationId][categoryName].items.push({
+            name: item.ime,
+            description: item.opis,
+            price: item.cena,
+            image: item.slika,
+            tag: item.oznaka || undefined
+          });
+        }
+      });
+    });
+    
+    // Convert to format: { locationId: [categories] }
+    const result = {};
+    Object.keys(locations).forEach(locationId => {
+      result[locationId] = Object.values(locations[locationId]);
+    });
+    
+    return result;
   }
-];
-
   return (
     <div className="bg-black-rich">
       {/* Hero Section */}
@@ -113,6 +112,7 @@ export default function Menu() {
       <MenuPreview
         menuData={menuData}
         showViewAllLink={false}
+        showLocationTabs={true}
       />
 
       {/* Special Info Section */}
