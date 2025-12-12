@@ -3,6 +3,9 @@ import { motion, useInView } from 'framer-motion';
 import { MapPinIcon, PhoneIcon, MailIcon, ClockIcon, SendIcon } from 'lucide-react';
 import PageTitle from '../components/common/PageTitle';
 import { GoldButton } from '../components/common/Button';
+import InfoCard from '../components/contact/InfoCard';
+import TimeTable from '../components/contact/TimeTable';
+import Map from '../components/contact/Map';
 
 export default function Contact() {
   const formRef = useRef(null);
@@ -16,7 +19,7 @@ export default function Contact() {
     limbus: {
       name: 'Jack&Joe BBQ & Pizza',
       location: 'Limbuš',
-      address: 'Limbuška cesta 110, 2341 Limbuš',
+      address: 'Limbuško nabrežje 6, 2341 Limbuš, Slovenia',
       phone: '+386 2 460 70 00',
       email: 'limbus@jackandjoe.si',
       mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2743.191903012671!2d15.586562376691946!3d46.56367027111328!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476f9de22eae1ee9%3A0xdc2494f3aa42c63c!2sJack%20%26%20Joe%20BBQ%20%26%20Pizza!5e0!3m2!1sen!2ssi!4v1765040938675!5m2!1sen!2ssi',
@@ -33,7 +36,7 @@ export default function Contact() {
     lent: {
       name: 'Jack&Joe Steak & Burger Club',
       location: 'Lent, Maribor',
-      address: 'Lent 11, 2000 Maribor',
+      address: 'Ob bregu 20, 2000 Maribor, Slovenia',
       phone: '+386 2 460 70 10',
       email: 'lent@jackandjoe.si',
       mapEmbed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2743.5055605068146!2d15.637683100000004!3d46.55746690000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476f77a54c218647%3A0x6dbc0ba740b7048b!2sJack%20%26%20Joe%20Steak%20and%20Burger%20Club!5e0!3m2!1sen!2ssi!4v1765040508090!5m2!1sen!2ssi',
@@ -145,46 +148,24 @@ export default function Contact() {
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {/* Address Card */}
-            <div className="group bg-black-card border border-white/5 p-8 hover:border-gold/20 transition-all duration-500">
-              <div className="w-12 h-12 bg-gold/10 flex items-center justify-center mb-6">
-                <MapPinIcon className="w-6 h-6 text-gold" />
-              </div>
-              <h3 className="font-playfair text-2xl text-white mb-4">Naslov</h3>
-              <p className="text-gray-400 font-inter font-light leading-relaxed">
-                {locations[activeLocation].address}
-              </p>
-            </div>
-
+            <InfoCard
+              icon={<MapPinIcon />}
+              title="Naslov"
+              description={locations[activeLocation].address}
+            />
             {/* Phone Card */}
-            <div className="group bg-black-card border border-white/5 p-8 hover:border-gold/20 transition-all duration-500">
-              <div className="w-12 h-12 bg-gold/10 flex items-center justify-center mb-6">
-                <PhoneIcon className="w-6 h-6 text-gold" />
-              </div>
-              <h3 className="font-playfair text-2xl text-white mb-4">Telefon</h3>
-              <a
-                href={`tel:${locations[activeLocation].phone}`}
-                className="text-gray-400 font-inter font-light hover:text-gold transition-colors"
-              >
-                {locations[activeLocation].phone}
-              </a>
-              <p className="text-gray-500 font-inter font-light text-sm mt-2">
-                Za rezervacije in informacije
-              </p>
-            </div>
+            <InfoCard
+              icon = {<PhoneIcon />}
+              title="Telefon"
+              description={locations[activeLocation].phone}
+            />
 
             {/* Email Card */}
-            <div className="group bg-black-card border border-white/5 p-8 hover:border-gold/20 transition-all duration-500">
-              <div className="w-12 h-12 bg-gold/10 flex items-center justify-center mb-6">
-                <MailIcon className="w-6 h-6 text-gold" />
-              </div>
-              <h3 className="font-playfair text-2xl text-white mb-4">Email</h3>
-              <a
-                href={`mailto:${locations[activeLocation].email}`}
-                className="text-gray-400 font-inter font-light hover:text-gold transition-colors break-all"
-              >
-                {locations[activeLocation].email}
-              </a>
-            </div>
+            <InfoCard
+              icon = {<MailIcon />}
+              title="Email"
+              description={locations[activeLocation].email}
+            />
           </motion.div>
 
           {/* Opening Hours */}
@@ -195,21 +176,12 @@ export default function Contact() {
             transition={{ duration: 0.5 }}
             className="mt-12 bg-black-card border border-white/5 p-8"
           >
-            <div className="flex items-center gap-3 mb-6">
-              <ClockIcon className="w-6 h-6 text-gold" />
-              <h3 className="font-playfair text-2xl text-white">Delovni Čas</h3>
-            </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {locations[activeLocation].hours.map((item, index) => (
-                <div key={index} className="flex justify-between items-center border-b border-white/5 pb-3">
-                  <span className="text-white font-inter text-sm">{item.day}</span>
-                  <span className="text-gold font-inter font-light text-sm">{item.time}</span>
-                </div>
-              ))}
-            </div>
-            <p className="text-gray-500 font-inter font-light text-sm mt-6">
-              * Kuhinja zaprta 30 minut pred zaprtjem restavracije
-            </p>
+            <TimeTable
+              icon={<ClockIcon />}
+              title="Delovni Čas"
+              hours={locations[activeLocation].hours}
+              note="* Kuhinja zaprta 30 minut pred zaprtjem restavracije"
+            />
           </motion.div>
 
           {/* Google Maps */}
@@ -220,22 +192,11 @@ export default function Contact() {
             transition={{ duration: 0.5 }}
             className="mt-12"
           >
-            <h3 className="font-playfair text-2xl text-white mb-6 flex items-center gap-3">
-              <MapPinIcon className="w-6 h-6 text-gold" />
-              Lokacija na Zemljevidu
-            </h3>
-            <div className="relative w-full h-96 bg-black-card border border-white/5 overflow-hidden">
-              <iframe
-                src={locations[activeLocation].mapEmbed}
-                width="100%"
-                height="100%"
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="grayscale hover:grayscale-0 transition-all duration-500"
-                style={{ border: 0 }}
-              />
-            </div>
+            <Map
+              icon={<MapPinIcon />}
+              title="Lokacija na Zemljevidu"
+              location={locations[activeLocation].name}
+            />
           </motion.div>
         </div>
       </section>
