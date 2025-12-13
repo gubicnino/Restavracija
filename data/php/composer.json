@@ -1,6 +1,10 @@
 {
     "require": {
         "phpmailer/phpmailer": "^7.0",
-        "dompdf/dompdf": "^2.0"
+        "dompdf/dompdf": "^2.0",
+        "phpoffice/phpspreadsheet": "^5.3"
+    },
+    "config": {
+        "disable-tls": false
     }
 }

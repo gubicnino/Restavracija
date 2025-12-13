@@ -1,0 +1,25 @@
+z wiget uninstall 8.5 in install 8.4
+
+uredi php.ini
+
+;extension=gd
+;extension=zip
+;extension=openssl
+;extension=pdo_mysql
+
+
+ce ga ni:
+ # Najdi PHP instalacijski direktorij:
+$phpDir = (Get-Command php).Source | Split-Path
+
+# Preveri kje je PHP:
+echo $phpDir
+
+# Kopiraj php.ini-development v php.ini:
+Copy-Item "$phpDir\php.ini-development" -Destination "$phpDir\php.ini"
+
+# ALI če ne obstaja, uporabi production:
+Copy-Item "$phpDir\php.ini-production" -Destination "$phpDir\php.ini"
+
+
+uncomment extension_dir = /ext in extension=fileinfo in extension=mbstring

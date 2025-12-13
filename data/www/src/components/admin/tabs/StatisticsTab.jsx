@@ -8,9 +8,13 @@ import { pridobiRezervacije } from '../../../services/rezervacije';
 import StatsCard from '../StatsCard';
 import { Navigate } from 'react-router-dom';
 import { useUser } from '../../../context/UserContext';
+import KeyInsights from '../KeyInsights';
+import { GoldButton } from '../../common/Button';
+import ExcelExport from '../ExcelExport';
 
 export default function StatisticsTab() {
     const [reservations, setReservations] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [stats, setStats] = useState({
         total: 0,
         confirmed: 0,
@@ -88,7 +92,6 @@ export default function StatisticsTab() {
         });
     };
 
-    // Pie chart data for status distribution
     const getStatusPieData = () => {
         return [
             { name: 'Potrjeno', value: stats.confirmed, color: '#10b981' },
@@ -97,7 +100,6 @@ export default function StatisticsTab() {
         ];
     };
 
-    // Line chart data for monthly reservations
     const getMonthlyLineData = () => {
         const monthlyData = {};
         const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt', 'Nov', 'Dec'];
@@ -113,11 +115,9 @@ export default function StatisticsTab() {
             rezervacije: monthlyData[month] || 0
         }));
     };
-
     const statusPieData = getStatusPieData();
     const monthlyLineData = getMonthlyLineData();
 
-    const COLORS = ['#10b981', '#f59e0b', '#ef4444'];
 
     return (
         <div className="space-y-6">
@@ -131,31 +131,23 @@ export default function StatisticsTab() {
 
             {/* Key Insights */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg p-6">
-                    <div className="flex items-center gap-3 mb-2">
-                        <Award className="w-6 h-6 text-gold" />
-                        <h3 className="font-semibold text-white">Najbolj priljubljen čas</h3>
-                    </div>
-                    <p className="text-3xl font-bold text-gold">{stats.topTimeSlot}</p>
-                </div>
-                
-                <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg p-6">
-                    <div className="flex items-center gap-3 mb-2">
-                        <Calendar className="w-6 h-6 text-gold" />
-                        <h3 className="font-semibold text-white">Najbolj zaseden dan</h3>
-                    </div>
-                    <p className="text-3xl font-bold text-gold">{stats.topDay}</p>
-                </div>
+                <KeyInsights
+                    icon = {<Award />}
+                    title = "Najbolj priljubljen čas"
+                    value = {stats.topTimeSlot}
+                />
+                <KeyInsights
+                    icon = { <Calendar /> }
+                    title = "Najbolj zaseden dan"
+                    value = {stats.topDay}
+                />
 
-                <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg p-6">
-                    <div className="flex items-center gap-3 mb-2">
-                        <XCircle className="w-6 h-6 text-red-400" />
-                        <h3 className="font-semibold text-white">Stopnja zavrnitve</h3>
-                    </div>
-                    <p className="text-3xl font-bold text-red-400">
-                        {stats.total > 0 ? ((stats.denied / stats.total) * 100).toFixed(1) : 0}%
-                    </p>
-                </div>
+                <KeyInsights
+                    icon = {<XCircle />}
+                    title = "Stopnja zavrnitve"
+                    value = {stats.total > 0 ? ((stats.denied / stats.total) * 100).toFixed(1) + '%' : '0%'}
+                    type = "red"
+                />
             </div>
 
             {/* Charts Grid */}
@@ -210,6 +202,7 @@ export default function StatisticsTab() {
                     </ResponsiveContainer>
                 </div>
             </div>
+            <ExcelExport />
         </div>
     );
 }
