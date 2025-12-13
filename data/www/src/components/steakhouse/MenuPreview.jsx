@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { NavLink } from 'react-router-dom';
 
 const defaultMenuData = {
   limbus: [
@@ -187,7 +188,7 @@ const defaultMenuData = {
 };
 
 export default function MenuPreview({ 
-  menuData = {}, // Changed from array to object
+  menuData = defaultMenuData,
   showTitle = true,
   showViewAllLink = true,
   title = "Naš Meni",
@@ -353,13 +354,13 @@ export default function MenuPreview({
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-center mt-16"
           >
-            <a
-              href="/meni"
+            <NavLink
+              to="/meni"
               className="inline-flex items-center gap-3 text-gold font-inter text-sm tracking-wider uppercase hover:text-gold-light transition-colors duration-300"
             >
               <span>Prikaži celoten meni</span>
               <span className="w-8 h-px bg-current" />
-            </a>
+            </NavLink>
           </motion.div>
         )}
       </div>

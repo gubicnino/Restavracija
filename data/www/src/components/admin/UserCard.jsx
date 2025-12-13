@@ -9,14 +9,12 @@ export default function UserCard({
     const getRoleBadge = (role) => {
         const styles = {
             admin: 'bg-red-500/20 text-red-400 border-red-500/30',
-            manager: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-            user: 'bg-gray-500/20 text-gray-400 border-gray-500/30'
+            upravljalec: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
         };
         
         const labels = {
             admin: 'Administrator',
-            manager: 'Upravljalec',
-            user: 'Uporabnik'
+            upravljalec: 'Upravljalec',
         };
 
         return (

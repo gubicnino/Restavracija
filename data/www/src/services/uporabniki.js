@@ -5,7 +5,7 @@ export const pridobiUporabnike = () => {
 };
 
 export const ustvariUporabnika = (uporabnikData) => {
-    return api.post('/api/register.php', uporabnikData).then(res => res.data);
+    return api.post('/api/ustvari_uporabnika.php', uporabnikData).then(res => res.data);
 };
 
 export const posodobiUporabnika = (id, uporabnikData) => {

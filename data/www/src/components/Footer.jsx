@@ -2,7 +2,9 @@ import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { MapPinIcon, PhoneIcon, MailIcon, ClockIcon, InstagramIcon, FacebookIcon } from 'lucide-react';
 import { logout } from '../services/auth';
+import { useUser } from '../context/UserContext';
 import { NavLink } from 'react-router-dom';
+
 
 export default function Footer() {
   const ref = useRef(null);
@@ -10,6 +12,7 @@ export default function Footer() {
     once: true,
     margin: '-50px'
   });
+  const { isLoggedIn } = useUser();
 
   const handleLogout = () => {
     logout().then(() => {
@@ -229,12 +232,16 @@ export default function Footer() {
             <a href="#" className="text-gray-600 font-inter text-xs hover:text-gold transition-colors">
               Pogoji Uporabe
             </a>
-            <NavLink to="/login" className="text-gray-600 font-inter text-xs hover:text-gold transition-colors">
-              Login
-            </NavLink>
-            <a href="/" onClick={handleLogout} className="text-gray-600 font-inter text-xs hover:text-gold transition-colors">
+            {(isLoggedIn) ? (
+              <a href="/" onClick={handleLogout} className="text-gray-600 font-inter text-xs hover:text-gold transition-colors">
               Odjava
             </a>
+            ) : (
+              <NavLink to="/login" className="text-gray-600 font-inter text-xs hover:text-gold transition-colors">
+                Login
+              </NavLink>
+            )}
+            
           </div>  
         </div>
       </div>

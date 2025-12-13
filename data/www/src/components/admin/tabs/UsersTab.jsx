@@ -86,7 +86,6 @@ export default function UsersTab() {
 
     return (
         <>
-            {/* Search */}
             <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg p-6 mb-6">
                 <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
                     <h2 className="font-playfair text-2xl text-white">Uporabniki</h2>
