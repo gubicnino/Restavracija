@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
+import { AdvancedImage } from '@cloudinary/react';
+import { getMenuImage } from '../../services/cloudinary';
 
 const defaultMenuData = {
   limbus: [
@@ -189,6 +191,7 @@ const defaultMenuData = {
 
 export default function MenuPreview({ 
   menuData = defaultMenuData,
+  isCustomData = false,
   showTitle = true,
   showViewAllLink = true,
   title = "Naš Meni",
@@ -314,18 +317,23 @@ export default function MenuPreview({
                 className="group flex gap-6 p-6 bg-black-rich/50 border border-white/5 hover:border-gold/20 transition-colors duration-500"
               >
                 {/* Image */}
-                <div className="relative w-28 h-28 flex-shrink-0 overflow-hidden">
+                {isCustomData ? (item.image &&
+                (<div className="relative w-28 h-28 flex-shrink-0 overflow-hidden">
+                  <AdvancedImage 
+                    cldImg={getMenuImage(item.image)}
+                    alt={item.name}
+                  />
+                </div>)): (item.image &&
+                (<div className="relative w-28 h-28 flex-shrink-0 overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  {item.tag && (
-                    <div className="absolute top-2 left-2 px-2 py-1 bg-gold text-black-rich text-[10px] tracking-wider uppercase font-semibold">
-                      {item.tag}
-                    </div>
-                  )}
-                </div>
+                </div>))
+                }
+
+                
 
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-center">

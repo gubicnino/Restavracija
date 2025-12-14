@@ -113,6 +113,7 @@ export default function Menu() {
         menuData={menuData}
         showViewAllLink={false}
         showLocationTabs={true}
+        isCustomData={true}
       />
 
       {/* Special Info Section */}

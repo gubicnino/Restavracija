@@ -13,6 +13,7 @@ import Navigation from './components/Navigation'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import ProtectedRoute from './components/ProtectedRoute'
+import GalleryPage from './pages/GalleryPage'
 
 function AppContent() {
   return (
@@ -24,6 +25,7 @@ function AppContent() {
         <Route path="/o-nas" element={<About />} />
         <Route path="/meni" element={<Menu />} />
         <Route path="/kontakt" element={<Contact />} />
+        <Route path="/galerija" element={<GalleryPage />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/dashboard" element={
         <ProtectedRoute requiredRoles={['administrator', 'upravljalec']}>
