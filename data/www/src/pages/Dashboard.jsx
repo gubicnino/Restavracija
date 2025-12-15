@@ -94,7 +94,7 @@ export default function Dashboard() {
         <div className="min-h-screen bg-gradient-to-br from-black-rich via-gray-900 to-black-rich">
             <DashboardSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
             
-            <div className="ml-64 pt-24 pb-12">
+            <div className="ml-64 pt-40 pb-12">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Header */}
                     <div className="mb-8 text-center pt-12">

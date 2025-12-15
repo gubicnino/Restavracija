@@ -30,13 +30,16 @@ export default function ReservationActions({
                         Prekliči
                     </button>
                 )}
-                <button
-                    onClick={() => onEdit(reservation.id)}
-                    className="px-4 py-2 bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 rounded-lg transition-colors text-sm flex items-center gap-2"
-                >
-                    <Edit className="w-4 h-4" />
-                    Uredi
-                </button>
+                {/*
+                    <button
+                        onClick={() => onEdit(reservation.id)}
+                        className="px-4 py-2 bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 rounded-lg transition-colors text-sm flex items-center gap-2"
+                    >
+                        <Edit className="w-4 h-4" />
+                        Uredi
+                    </button>
+                */}
+
                 <button
                     onClick={() => onDelete(reservation.id)}
                     className="px-4 py-2 bg-gray-500/20 text-gray-400 hover:bg-gray-500/30 rounded-lg transition-colors text-sm flex items-center gap-2"
@@ -70,13 +73,15 @@ export default function ReservationActions({
                 </button>
             )}
 
-            <button
-                onClick={() => onEdit(reservation.id)}
-                className="p-2 bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 rounded-lg transition-colors"
-                title="Uredi"
-            >
-                <Edit className="w-4 h-4" />
-            </button>
+            {/*
+                <button
+                    onClick={() => onEdit(reservation.id)}
+                    className="p-2 bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 rounded-lg transition-colors"
+                    title="Uredi"
+                >
+                    <Edit className="w-4 h-4" />
+                </button>
+            */}
 
             <button
                 onClick={() => onDelete(reservation.id)}
