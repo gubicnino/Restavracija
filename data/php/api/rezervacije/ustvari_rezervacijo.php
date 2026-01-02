@@ -1,13 +1,7 @@
 <?php
 ob_start();
 header('Content-Type: application/json');
-$allowed_origins = ['http://localhost:5173', 'http://127.0.0.1:5173'];
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-
-if (in_array($origin, $allowed_origins)) {
-    header('Access-Control-Allow-Origin: ' . $origin);
-}
-header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
@@ -25,27 +19,16 @@ use Dompdf\Options;
 
 require '../../vendor/autoload.php';
 
-// Load .env file
-function loadEnv($path) {
-    if (!file_exists($path)) {
-        throw new Exception('.env file not found');
-    }
-    
-    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) {
-            continue;
-        }
-        
-        list($name, $value) = explode('=', $line, 2);
-        $_ENV[trim($name)] = trim($value);
-    }
-}
-
-// Load environment variables
-loadEnv(__DIR__ . '/../../.env');
-
 $data = json_decode(file_get_contents('php://input'), true);
+
+// Get environment variables directly from Docker
+$smtpHost = getenv('SMTP_HOST');
+$smtpPort = getenv('SMTP_PORT');
+$smtpUsername = getenv('SMTP_USERNAME');
+$smtpPassword = getenv('SMTP_PASSWORD');
+$smtpFromEmail = getenv('SMTP_FROM_EMAIL');
+$smtpFromName = getenv('SMTP_FROM_NAME');
+
 
 // Validiraj podatke
 $polno_ime = $data['polno_ime'] ?? '';
@@ -320,7 +303,7 @@ try {
     $dompdf->render();
     
     // Save PDF to file
-    $pdfDirectory = __DIR__ . '/../confirmations/';
+    $pdfDirectory = __DIR__ . '/../../confirmations/';
     if (!file_exists($pdfDirectory)) {
         mkdir($pdfDirectory, 0777, true);
     }
@@ -347,17 +330,17 @@ try {
     try {
         // SMTP Settings
         $mail->isSMTP();
-        $mail->Host       = $_ENV['SMTP_HOST'];
+        $mail->Host       = $smtpHost;
         $mail->SMTPAuth   = true;
-        $mail->Username   = $_ENV['SMTP_USERNAME'];
-        $mail->Password   = $_ENV['SMTP_PASSWORD'];
+        $mail->Username   = $smtpUsername;
+        $mail->Password   = $smtpPassword;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = $_ENV['SMTP_PORT'];
+        $mail->Port       = $smtpPort;
 
         // Sender and recipient
-        $mail->setFrom($_ENV['SMTP_FROM_EMAIL'], $_ENV['SMTP_FROM_NAME']);
+        $mail->setFrom($smtpFromEmail, $smtpFromName);
         $mail->addAddress($email, $polno_ime);
-        $mail->addReplyTo($_ENV['SMTP_FROM_EMAIL'], $_ENV['SMTP_FROM_NAME']);
+        $mail->addReplyTo($smtpFromEmail, $smtpFromName);
 
         // Attach PDF
         $mail->addAttachment($pdfPath, $pdfFilename);

@@ -1,12 +1,7 @@
 #custom
 .env
-
-data/php/.env
-data/php/.env.local
-data/php/.env.*.local
-
-
-
+data/php/vendor/
+data/php/confirmations
 # Node modules
 data/www/node_modules/
 
@@ -17,8 +12,11 @@ data/www/build/
 # Environment variables
 data/www/.env
 data/www/.env.local
-data/www/.env.*.local
-
+data/www/.env.production.local
+data/www/.env.production
+data/php/.env
+data/php/.env.local
+    
 # Logs
 *.log
 npm-debug.log*

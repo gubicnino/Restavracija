@@ -1,9 +1,9 @@
 <?php
 // Preberi environment spremenljivke ali uporabi hardcoded vrednosti
-$host = getenv('DB_HOST') ?: 'restavracija.mysql.database.azure.com';
-$port = getenv('DB_PORT') ?: '3306';
-$db   = getenv('DB_NAME') ?: 'dsr_projekt';
-$user = getenv('DB_USER') ?: 'student';
+$host = getenv('DB_HOST');
+$port = getenv('DB_PORT');
+$db   = getenv('DB_NAME');
+$user = getenv('DB_USER');
 $pass = getenv('DB_PASSWORD');
 
 // Debug - preveri ali je geslo nastavljeno

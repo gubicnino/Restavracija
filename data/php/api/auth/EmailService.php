@@ -3,31 +3,21 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 require '../../vendor/autoload.php';
 
-function loadEnv($path) {
-    if (!file_exists($path)) {
-        throw new Exception('.env file not found');
-    }
-    
-    $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) {
-            continue;
-        }
-        
-        list($name, $value) = explode('=', $line, 2);
-        $_ENV[trim($name)] = trim($value);
-    }
-}
-loadEnv(__DIR__ . '/../../.env');
-
+// Get environment variables from Docker
+$smtpHost = getenv('SMTP_HOST');
+$smtpPort = getenv('SMTP_PORT');
+$smtpUsername = getenv('SMTP_USERNAME');
+$smtpPassword = getenv('SMTP_PASSWORD');
+$smtpFromEmail = getenv('SMTP_FROM_EMAIL');
+$smtpFromName = getenv('SMTP_FROM_NAME');
 
 $mail = new PHPMailer(true);
 $mail->isSMTP();
-$mail->Host       = $_ENV['SMTP_HOST'];
+$mail->Host       = $smtpHost;
 $mail->SMTPAuth   = true;
-$mail->Username   = $_ENV['SMTP_USERNAME'];
-$mail->Password   = $_ENV['SMTP_PASSWORD'];
+$mail->Username   = $smtpUsername;
+$mail->Password   = $smtpPassword;
 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-$mail->Port       = $_ENV['SMTP_PORT'];
+$mail->Port       = $smtpPort;
 
-$mail->setFrom($_ENV['SMTP_FROM_EMAIL'], $_ENV['SMTP_FROM_NAME']);
+$mail->setFrom($smtpFromEmail, $smtpFromName);
