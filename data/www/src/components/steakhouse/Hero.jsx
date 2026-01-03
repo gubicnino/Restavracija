@@ -14,12 +14,20 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   return <section ref={ref} className="relative h-screen w-full overflow-hidden">
       {/* Parallax Background */}
-      <motion.div style={{
-      y
-    }} className="absolute inset-0 w-full h-[120%]">
-        <div className="absolute inset-0 bg-cover bg-center" style={{
-        backgroundImage: `url('/assets/naslovna2-fotojj-l-big-02.jpg')`
-      }} />
+      <motion.div 
+        style={{
+          y,
+          willChange: 'transform'
+        }} 
+        className="absolute inset-0 w-full h-[120%]"
+      >
+        <div 
+          className="absolute inset-0 bg-cover bg-center will-change-transform" 
+          style={{
+            backgroundImage: `url('/assets/naslovna2-fotojj-l-big-02.webp')`,
+            transform: 'translate3d(0, 0, 0)'
+          }} 
+        />
         {/* Dark overlay with gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-black-rich/70 via-black-rich/50 to-black-rich" />
         {/* Texture overlay */}
@@ -102,7 +110,7 @@ export function Hero() {
       }} transition={{
         duration: 1,
         delay: 1.5
-      }} className="absolute bottom-12 left-1/2 -translate-x-1/2">
+      }} className="absolute bottom-12 left-1/2 -translate-x-1/2 z-50">
           <motion.div animate={{
           y: [0, 8, 0]
         }} transition={{
@@ -111,7 +119,7 @@ export function Hero() {
           ease: 'easeInOut'
         }} className="flex flex-col items-center text-gold/60">
             <span className="text-xs tracking-[0.2em] uppercase mb-2 font-inter">
-              Scroll
+              Poglej
             </span>
             <ChevronDownIcon className="w-5 h-5" />
           </motion.div>

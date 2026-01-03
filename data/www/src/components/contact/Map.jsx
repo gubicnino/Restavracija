@@ -1,6 +1,7 @@
 import { MapPinIcon, NavigationIcon } from "lucide-react";
 import { useState } from "react";
 import { AlertCircleIcon, Loader2Icon } from "lucide-react";
+import {GoldButton} from "../common/Button";
 
 export default function Map(props, zoom = 15) {
     const [showDirections, setShowDirections] = useState(false);
@@ -54,6 +55,7 @@ export default function Map(props, zoom = 15) {
             }
         );
     };
+    
     const handleDirectionsClick = () => {
         if (!showDirections) {
             getUserLocation();
@@ -63,6 +65,13 @@ export default function Map(props, zoom = 15) {
             setLocationError(null);
         }
     };
+
+    const handleOpenInMaps = () => {
+        // Opens Google Maps app on mobile or Google Maps website
+        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedLocation}`;
+        window.open(mapsUrl, '_blank');
+    };
+    
     const placeUrl = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${encodedLocation}&zoom=${zoom}`;
     
     const directionsUrl = userLocation 
@@ -129,6 +138,19 @@ export default function Map(props, zoom = 15) {
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/0 transition-colors pointer-events-none" />
             </div>
+            
+            {/* Mobile/Tablet Button - Only visible on small/medium screens */}
+            <div className="mt-4 lg:hidden">
+                <GoldButton 
+                    onClick={handleOpenInMaps}
+                    className="w-full flex items-center justify-center"
+                >
+                    <div className="flex items-center gap-2">
+                        <NavigationIcon className="w-5 h-5" />
+                        Odpri v Google Maps
+                    </div>
+                </GoldButton>
+            </div>
         </>
-)
+    )
 }

@@ -10,7 +10,7 @@ export default function DashboardSidebar({ activeTab, setActiveTab }) {
     ];
 
     return (
-        <aside className="w-64 bg-gray-800/50 backdrop-blur-sm border-r border-gray-700 min-h-screen fixed left-0 top-0 pt-24">
+        <aside className="hidden lg:block w-64 bg-gray-800/50 backdrop-blur-sm border-r border-gray-700 min-h-screen fixed left-0 top-0 pt-24">
             <nav className="p-6">
                 <h2 className="font-playfair text-xl text-white mb-6 pt-20">Admin Panel</h2>
                 <ul className="space-y-2">

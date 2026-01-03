@@ -24,14 +24,14 @@ export default function ReservationCard({
         specialRequests: reservation.posebne_zelje || ''
     };
     return (
-        <div className="p-6 hover:bg-gray-700/30 transition-colors">
+        <div className="p-4 md:p-6 hover:bg-gray-700/30 transition-colors">
             <div className="flex items-start justify-between mb-4">
                 <div>
-                    <h3 className="font-semibold text-white text-lg mb-1">
+                    <h3 className="font-semibold text-white text-base md:text-lg mb-1">
                         {mappedReservation.customerName}
                     </h3>
                     {mappedReservation.specialOccasion && (
-                        <p className="text-sm text-gold">
+                        <p className="text-xs md:text-sm text-gold">
                             🎉 {mappedReservation.specialOccasion}
                         </p>
                     )}
@@ -39,26 +39,26 @@ export default function ReservationCard({
                 <StatusBadge status={mappedReservation.status} />
             </div>
 
-            <div className="space-y-2 mb-4 text-sm text-gray-300">
+            <div className="space-y-2 mb-4 text-xs md:text-sm text-gray-300">
                 <div className="flex items-center gap-2">
-                    <Mail className="w-4 h-4 text-gray-400" />
-                    <span>{mappedReservation.email}</span>
+                    <Mail className="w-3 md:w-4 h-3 md:h-4 text-gray-400 flex-shrink-0" />
+                    <span className="break-all">{mappedReservation.email}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Phone className="w-4 h-4 text-gray-400" />
+                    <Phone className="w-3 md:w-4 h-3 md:h-4 text-gray-400 flex-shrink-0" />
                     <span>{mappedReservation.phone}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-gray-400" />
+                    <Calendar className="w-3 md:w-4 h-3 md:h-4 text-gray-400 flex-shrink-0" />
                     <span>{mappedReservation.date}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-gray-400" />
+                    <Clock className="w-3 md:w-4 h-3 md:h-4 text-gray-400 flex-shrink-0" />
                     <span>{mappedReservation.time}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Users className="w-4 h-4 text-gray-400" />
-                    <span>{mappedReservation.guests} oseb - {mappedReservation.table}</span>
+                    <Users className="w-3 md:w-4 h-3 md:h-4 text-gray-400 flex-shrink-0" />
+                    <span>{mappedReservation.guests} oseb - miza {mappedReservation.table}</span>
                 </div>
             </div>
 

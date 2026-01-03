@@ -11,11 +11,11 @@ export default function ReservationActions({
 }) {
     if (isMobile) {
         return (
-            <div className="flex gap-2 flex-wrap">
+            <div className="action-buttons-mobile flex gap-2 flex-wrap">
                 {reservation.status === 'pending' && (
                     <button
                         onClick={() => onConfirm(reservation.id)}
-                        className="flex-1 px-4 py-2 bg-green-500/20 text-green-400 hover:bg-green-500/30 rounded-lg transition-colors font-semibold text-sm flex items-center justify-center gap-2"
+                        className="flex-1 min-w-[120px] px-3 md:px-4 py-2 bg-green-500/20 text-green-400 hover:bg-green-500/30 rounded-lg transition-colors font-semibold text-xs md:text-sm flex items-center justify-center gap-2"
                     >
                         <Check className="w-4 h-4" />
                         Potrdi
@@ -24,7 +24,7 @@ export default function ReservationActions({
                 {(reservation.status === 'pending' || reservation.status === 'confirmed') && (
                     <button
                         onClick={() => onReject(reservation.id)}
-                        className="flex-1 px-4 py-2 bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded-lg transition-colors font-semibold text-sm flex items-center justify-center gap-2"
+                        className="flex-1 min-w-[120px] px-3 md:px-4 py-2 bg-red-500/20 text-red-400 hover:bg-red-500/30 rounded-lg transition-colors font-semibold text-xs md:text-sm flex items-center justify-center gap-2"
                     >
                         <X className="w-4 h-4" />
                         Prekliči
@@ -42,10 +42,12 @@ export default function ReservationActions({
 
                 <button
                     onClick={() => onDelete(reservation.id)}
-                    className="px-4 py-2 bg-gray-500/20 text-gray-400 hover:bg-gray-500/30 rounded-lg transition-colors text-sm flex items-center gap-2"
+                    className="px-3 md:px-4 py-2 bg-gray-500/20 text-gray-400 hover:bg-gray-500/30 rounded-lg transition-colors text-xs md:text-sm flex items-center gap-2"
                 >
-                    <Trash2 className="w-4 h-4" />
-                    Izbriši
+                    <div className="flex items-center gap-2 w-full justify-center">
+                        <Trash2 className="w-4 h-4" />
+                        Izbriši
+                    </div>
                 </button>
             </div>
         );

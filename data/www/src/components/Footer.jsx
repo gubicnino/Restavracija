@@ -42,17 +42,20 @@ export default function Footer() {
     time: '11:00 - 22:00'
   }];
   const quickLinks = [{
+    name: 'Domov',
+    href: '/'
+  }, {
     name: 'Meni',
-    href: '/menu'
+    href: '/meni'
   }, {
     name: 'O nas',
-    href: '/about'
+    href: '/o-nas'
+  }, {
+    name: 'Galerija',
+    href: '/galerija'
   }, {
     name: 'Kontakt',
-    href: '/contact'
-  }, {
-    name: 'Rezervacije',
-    href: '#reservation'
+    href: '/kontakt'
   }];
   return <footer ref={ref} className="relative bg-black-rich border-t border-white/5">
       {/* Main Footer Content */}
@@ -68,7 +71,7 @@ export default function Footer() {
         } : {}} transition={{
           duration: 0.6
         }} className="lg:col-span-1">
-            <img src="/assets/logo-gold-200.png" alt="Jack & Joe" className="mb-6" />
+            <img src="/assets/logo-gold-200.png" alt="Jack & Joe" className="mb-6 w-32" />
             <p className="text-gray-400 font-inter text-sm font-light mb-6 leading-relaxed">
               Kjer se vonj žara prepleta z rečnim vetričem. Dve lokaciji ob Dravi,
               ena strast do mesa in pristne kulinarike.
@@ -173,10 +176,14 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3">
               {quickLinks.map((link, index) => <li key={index}>
-                  <a href={link.href} className="text-gray-400 font-inter text-sm font-light hover:text-gold transition-colors duration-300 flex items-center gap-2 group">
+                  <NavLink 
+                    to={link.href}
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    className="text-gray-400 font-inter text-sm font-light hover:text-gold transition-colors duration-300 flex items-center gap-2 group"
+                  >
                     <span className="w-0 h-px bg-gold group-hover:w-4 transition-all duration-300" />
                     {link.name}
-                  </a>
+                  </NavLink>
                 </li>)}
             </ul>
             <div className="mt-8 pt-8 border-t border-white/5">

@@ -6,6 +6,7 @@ import Modal from './common/Modal';
 import { GoldButton } from './common/Button';
 import ReservationForm from './ReservationForm';
 import { useUser } from '../context/UserContext';
+import '../styles/Header.css';
 export default function Navigation() {
   const navigate = useNavigate();
   const { isLoggedIn, logout, currentUser } = useUser();
@@ -66,14 +67,16 @@ export default function Navigation() {
               </li>)}
           </ul>
 
-          {/* CTA Button */}
-          <GoldButton onClick={handleReservationClick}>
-            Rezerviraj mizo
-          </GoldButton>
+          {/* CTA Button - Desktop Only */}
+          <div className="hidden md:block">
+            <GoldButton onClick={handleReservationClick}>
+              Rezerviraj mizo
+            </GoldButton>
+          </div>
 
           {/* Mobile Menu Button */}
           <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden text-white p-2" aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}>
-            {isMobileMenuOpen ? <XIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
+            {isMobileMenuOpen ? <XIcon className="w-10 h-10" /> : <MenuIcon className="w-10 h-10" />}
           </button>
         </nav>
       </motion.header>
@@ -87,9 +90,9 @@ export default function Navigation() {
       x: '100%'
     }} transition={{
       duration: 0.3
-    }} className={`fixed inset-0 z-40 bg-black-rich md:hidden ${isMobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
-        <div className="flex flex-col items-center justify-center h-full gap-8">
-          {navLinks.map((link, index) => <motion.a key={link.name} href={link.href} onClick={() => setIsMobileMenuOpen(false)} initial={{
+    }} className={`fixed inset-0 z-40 bg-black-rich px-6 md:hidden ${isMobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+        <div className="flex flex-col items-center justify-center h-full gap-8 px-6">
+          {navLinks.map((link, index) => <motion.div key={link.name} initial={{
           opacity: 0,
           y: 20
         }} animate={isMobileMenuOpen ? {
@@ -101,24 +104,47 @@ export default function Navigation() {
         }} transition={{
           duration: 0.3,
           delay: 0.1 * index
-        }} className="font-playfair text-3xl text-white hover:text-gold transition-colors">
-              {link.name}
-            </motion.a>)}
-          <motion.a href="#reservation" onClick={() => setIsMobileMenuOpen(false)} initial={{
-          opacity: 0,
-          y: 20
-        }} animate={isMobileMenuOpen ? {
-          opacity: 1,
-          y: 0
-        } : {
-          opacity: 0,
-          y: 20
-        }} transition={{
-          duration: 0.3,
-          delay: 0.5
-        }} className="mt-4 px-8 py-3 bg-gold text-black-rich font-inter font-semibold tracking-wider uppercase">
-            Reserve a Table
-          </motion.a>
+        }}>
+              <NavLink 
+                to={link.href} 
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }} 
+                className="font-playfair text-3xl text-white hover:text-gold transition-colors">
+                {link.name}
+              </NavLink>
+            </motion.div>)}
+          {isLoggedIn && (currentUser.vloga === 'administrator' || currentUser.vloga === 'upravljalec') && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={isMobileMenuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.3, delay: 0.4 }}
+            >
+              <NavLink 
+                to="/dashboard" 
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }} 
+                className="font-playfair text-3xl text-white hover:text-gold transition-colors">
+                Admin Panel
+              </NavLink>
+            </motion.div>
+          )}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={isMobileMenuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
+            className="mt-4"
+          >
+            <GoldButton onClick={() => {
+              handleReservationClick();
+              setIsMobileMenuOpen(false);
+            }}>
+              Rezerviraj mizo
+            </GoldButton>
+          </motion.div>
         </div>
       </motion.div>
       <Modal isOpen={isReservationModalOpen} onClose={handleCloseModal}>

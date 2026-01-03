@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '../context/UserContext';
 import DashboardSidebar from '../components/admin/DashboardSidebar';
+import BottomNavigation from '../components/admin/BottomNavigation';
 import ReservationsTab from '../components/admin/tabs/ReservationsTab';
 import UsersTab from '../components/admin/tabs/UsersTab';
 import StatisticsTab from '../components/admin/tabs/StatisticsTab';
 import TablesTab from '../components/admin/tabs/TablesTab';
 import { pridobiRezervacije } from '../services/rezervacije';
 import { potrdiRezervacijo, zavrniRezervacijo, urediRezervacijo, izbrisiRezervacijo } from '../services/rezervacije';
+import '../styles/Dashboard.css';
 
 export default function Dashboard() {
     const [activeTab, setActiveTab] = useState('reservations');
@@ -93,15 +95,16 @@ export default function Dashboard() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-black-rich via-gray-900 to-black-rich">
             <DashboardSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+            <BottomNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
             
-            <div className="ml-64 pt-40 pb-12">
+            <div className="dashboard-content lg:ml-64 pt-32 lg:pt-40 pb-24 lg:pb-12">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Header */}
-                    <div className="mb-8 text-center pt-12">
-                        <h1 className="font-playfair text-4xl md:text-5xl text-white mb-2">
+                    <div className="dashboard-header mb-6 lg:mb-8 text-center pt-4 lg:pt-12">
+                        <h1 className="dashboard-title font-playfair text-3xl md:text-4xl lg:text-5xl text-white mb-2">
                             Dashboard
                         </h1>
-                        <p className="font-inter text-gray-400">
+                        <p className="font-inter text-sm md:text-base text-gray-400">
                             {activeTab === 'reservations' && 'Upravljanje z rezervacijami'}
                             {activeTab === 'users' && 'Upravljanje uporabnikov'}
                             {activeTab === 'statistics' && 'Statistike rezervacij'}
