@@ -34,7 +34,7 @@ export default function ReservationsTab({
     return (
         <>
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="stats-grid grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
                 <StatsCard title="V čakanju" value={waitingReservations.length} icon={Clock} color="yellow" />
                 <StatsCard title="Potrjeno" value={confirmedReservations.length} icon={Check} color="green" />
                 <StatsCard title="Danes" value={todayReservations.length} icon={Calendar} color="gold" />
@@ -60,7 +60,7 @@ export default function ReservationsTab({
                 />
 
                 {/* Mobile Card View */}
-                <div className="lg:hidden divide-y divide-gray-700">
+                <div className="reservation-cards-mobile lg:hidden divide-y divide-gray-700">
                     {filteredReservations.map((reservation) => (
                         <ReservationCard
                             key={reservation.reservation_id}

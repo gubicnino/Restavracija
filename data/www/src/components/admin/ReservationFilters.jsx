@@ -10,15 +10,15 @@ export default function ReservationFilters({ filter, setFilter, searchTerm, setS
     ];
 
     return (
-        <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg p-6 mb-6">
-            <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+        <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-lg p-4 md:p-6 mb-6">
+            <div className="filters-mobile flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
                 {/* Filter Buttons */}
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex gap-2 flex-wrap w-full md:w-auto">
                     {filters.map(({ id, label }) => (
                         <button
                             key={id}
                             onClick={() => setFilter(id)}
-                            className={`px-4 py-2 rounded-lg font-inter text-sm transition-all ${
+                            className={`px-3 md:px-4 py-2 rounded-lg font-inter text-xs md:text-sm transition-all ${
                                 filter === id
                                     ? 'bg-gold text-black-rich font-semibold'
                                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -37,7 +37,7 @@ export default function ReservationFilters({ filter, setFilter, searchTerm, setS
                         placeholder="Iskanje po imenu, emailu..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full md:w-64 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-gold transition-colors"
+                        className="w-full md:w-64 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm placeholder-gray-400 focus:outline-none focus:border-gold transition-colors"
                     />
                 </div>
             </div>

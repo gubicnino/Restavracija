@@ -303,9 +303,20 @@ try {
     $dompdf->render();
     
     // Save PDF to file
-    $pdfDirectory = __DIR__ . '/../../confirmations/';
+    $baseDir = realpath(__DIR__ . '/../..');
+    if ($baseDir === false) {
+        throw new Exception("Napaka: Ne morem najti osnovnega direktorija");
+    }
+    
+    $pdfDirectory = $baseDir . '/confirmations/';
     if (!file_exists($pdfDirectory)) {
-        mkdir($pdfDirectory, 0777, true);
+        if (!mkdir($pdfDirectory, 0777, true)) {
+            throw new Exception("Napaka: Ne morem ustvariti direktorija $pdfDirectory. Preverite pravice.");
+        }
+    }
+    
+    if (!is_writable($pdfDirectory)) {
+        throw new Exception("Napaka: Direktorij $pdfDirectory ni writable. Preverite pravice.");
     }
     
     $pdfFilename = "reservation_{$reservation_id}.pdf";
@@ -370,7 +381,6 @@ try {
         'pdf_id' => $pdf_id,
         'email_sent' => $emailSent,
         'email_error' => $emailError,
-        'pdf_url' => $relativePdfPath
     ]);
 
 } catch (PDOException $e) {

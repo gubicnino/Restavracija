@@ -190,7 +190,7 @@ export default function ReservationForm() {
             animate={isInView ? { opacity: 1, y: 0 } : {}} 
             transition={{ duration: 0.8, delay: 0.2 }} 
             onSubmit={handleSubmit} 
-            className="bg-black-card/80 backdrop-blur-sm border border-white/10 p-8 md:p-12"
+            className="bg-black-card/80 backdrop-blur-sm p-4 md:p-12"
           >
             {/* Error Message */}
             {submitError && (

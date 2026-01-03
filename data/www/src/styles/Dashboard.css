@@ -1,0 +1,94 @@
+/* Dashboard Mobile Optimizations */
+
+/* Add safe area for devices with notches */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Mobile content spacing */
+@media (max-width: 1023px) {
+  .dashboard-content {
+    margin-left: 0 !important;
+    padding-top: 8rem !important;
+    padding-bottom: 6rem !important;
+  }
+
+  .dashboard-header {
+    padding-top: 2rem !important;
+  }
+
+  .dashboard-title {
+    font-size: 2rem !important;
+  }
+
+  /* Stats grid - single column on mobile */
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  /* Action buttons full width on mobile */
+  .action-buttons-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .action-buttons-mobile button {
+    width: 100%;
+  }
+
+  /* Filters stack on mobile */
+  .filters-mobile {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .filters-mobile > * {
+    width: 100%;
+  }
+
+  /* Card spacing on mobile */
+  .reservation-cards-mobile {
+    gap: 1rem !important;
+  }
+
+  /* Table cards responsive */
+  .table-cards-mobile {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* User cards responsive */
+  .user-cards-mobile {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .table-cards-mobile {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Animation for bottom nav */
+@media (max-width: 1023px) {
+  .bottom-nav-enter {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}

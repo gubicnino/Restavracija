@@ -16,10 +16,20 @@ export default function PageTitle({ PageTitle, title, titleGold, backgroundImage
   return (
     <section ref={heroRef} className="relative h-[60vh] w-full overflow-hidden">
         {/* Parallax Background */}
-        <motion.div style={{ y }} className="absolute inset-0 w-full h-[120%]">
+        <motion.div 
+          style={{ 
+            y,
+            willChange: 'transform'
+          }} 
+          className="absolute inset-0 w-full h-[120%] will-change-transform"
+        >
           <div 
-            className="absolute inset-0 bg-cover bg-center" 
-            style={{ backgroundImage: `url('${backgroundImage}')` }}
+            className="absolute inset-0 bg-cover bg-center will-change-transform" 
+            style={{ 
+              backgroundImage: `url('${backgroundImage}')`,
+              transform: 'translate3d(0, 0, 0)',
+              willChange: 'transform'
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black-rich/70 via-black-rich/50 to-black-rich" />
           <div className="absolute inset-0 texture-overlay" />
@@ -28,7 +38,7 @@ export default function PageTitle({ PageTitle, title, titleGold, backgroundImage
         {/* Content */}
         <motion.div 
           style={{ opacity }} 
-          className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center"
+          className="content-section relative z-10 flex flex-col items-center justify-center h-full px-6 text-center"
         >
           <motion.div
             initial={{ scaleX: 0 }}
