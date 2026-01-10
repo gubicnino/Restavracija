@@ -1,5 +1,4 @@
-import React from 'react';
-import { Calendar, Users, BarChart3, Table } from 'lucide-react';
+import { BarChart3, Calendar, Table, Users } from 'lucide-react';
 
 export default function BottomNavigation({ activeTab, setActiveTab }) {
     const menuItems = [
@@ -15,7 +14,10 @@ export default function BottomNavigation({ activeTab, setActiveTab }) {
                 {menuItems.map(({ id, label, icon: Icon }) => (
                     <button
                         key={id}
-                        onClick={() => setActiveTab(id)}
+                        onClick={() => {
+                            setActiveTab(id);
+                            window.scrollTo({ top: 0, behavior: 'instant' });
+                        }}
                         className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all min-w-[70px] ${
                             activeTab === id
                                 ? 'text-gold'

@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useUser } from '../context/UserContext';
-import DashboardSidebar from '../components/admin/DashboardSidebar';
+import { useEffect, useState } from 'react';
 import BottomNavigation from '../components/admin/BottomNavigation';
+import DashboardSidebar from '../components/admin/DashboardSidebar';
 import ReservationsTab from '../components/admin/tabs/ReservationsTab';
-import UsersTab from '../components/admin/tabs/UsersTab';
 import StatisticsTab from '../components/admin/tabs/StatisticsTab';
 import TablesTab from '../components/admin/tabs/TablesTab';
-import { pridobiRezervacije } from '../services/rezervacije';
-import { potrdiRezervacijo, zavrniRezervacijo, urediRezervacijo, izbrisiRezervacijo } from '../services/rezervacije';
+import UsersTab from '../components/admin/tabs/UsersTab';
+import { useUser } from '../context/UserContext';
+import { izbrisiRezervacijo, potrdiRezervacijo, pridobiRezervacije, urediRezervacijo, zavrniRezervacijo } from '../services/rezervacije';
 import '../styles/Dashboard.css';
 
 export default function Dashboard() {
@@ -19,7 +18,6 @@ export default function Dashboard() {
 
     useEffect(() => {
         pridobiRezervacije().then(data => {
-            console.log('Pridobljene rezervacije:', data);
             setReservations(data.data);
             setCardsData(data.data);
         });

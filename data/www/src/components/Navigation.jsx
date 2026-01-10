@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { useNavigate, NavLink } from 'react-router-dom';
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import { MenuIcon, XIcon } from 'lucide-react';
-import Modal from './common/Modal';
-import { GoldButton } from './common/Button';
-import ReservationForm from './ReservationForm';
+import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useUser } from '../context/UserContext';
 import '../styles/Header.css';
+import { GoldButton } from './common/Button';
+import Modal from './common/Modal';
+import ReservationForm from './ReservationForm';
 export default function Navigation() {
   const navigate = useNavigate();
   const { isLoggedIn, logout, currentUser } = useUser();
@@ -49,19 +49,19 @@ export default function Navigation() {
     }} className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-black-rich/95 backdrop-blur-md' : 'bg-transparent'}`}>
         <nav className="max-w-7xl mx-auto py-4 flex items-center justify-between">
           {/* Logo */}
-          <NavLink to="/" className="font-playfair text-2xl text-white"  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <NavLink to="/" className="font-playfair text-2xl text-white">
             <img src="/assets/logo-gold-200.png" alt="Logo" style={{width: "100px", marginBottom: "16px"}} />
           </NavLink>
 
           {/* Desktop Navigation */}
           <ul className="hidden md:flex items-center gap-8">
             {navLinks.map(link => <li key={link.name}>
-                <NavLink to={link.href} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-300 font-inter text-base tracking-wider uppercase hover:text-gold transition-colors duration-300">
+                <NavLink to={link.href} className="text-gray-300 font-inter text-base tracking-wider uppercase hover:text-gold transition-colors duration-300">
                   {link.name}
                 </NavLink>
               </li>)}
             {isLoggedIn && (currentUser.vloga === 'administrator' || currentUser.vloga === 'upravljalec') && (<li>
-                <NavLink to="/dashboard" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-gray-300 font-inter text-base tracking-wider uppercase hover:text-gold transition-colors duration-300">
+                <NavLink to="/dashboard" className="text-gray-300 font-inter text-base tracking-wider uppercase hover:text-gold transition-colors duration-300">
                   Admin Panel
                 </NavLink>
               </li>)}
@@ -107,10 +107,7 @@ export default function Navigation() {
         }}>
               <NavLink 
                 to={link.href} 
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }} 
+                onClick={() => setIsMobileMenuOpen(false)} 
                 className="font-playfair text-3xl text-white hover:text-gold transition-colors">
                 {link.name}
               </NavLink>
@@ -123,10 +120,7 @@ export default function Navigation() {
             >
               <NavLink 
                 to="/dashboard" 
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }} 
+                onClick={() => setIsMobileMenuOpen(false)} 
                 className="font-playfair text-3xl text-white hover:text-gold transition-colors">
                 Admin Panel
               </NavLink>

@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 import PageTitle from '../components/common/PageTitle';
 import MenuPreview from '../components/steakhouse/MenuPreview';
 import { pridobiMeniIteme } from '../services/meni';
@@ -11,9 +11,7 @@ export default function Menu() {
 
   useEffect(() => {
     pridobiMeniIteme().then(data => {
-      console.log('Pridobljeni meni itemi:', data);
       const transformedData = transformMenuData(data.data);
-      console.log('Transformed Menu Data:', transformedData);
       setMenuData(transformedData);
     });
   }, []);

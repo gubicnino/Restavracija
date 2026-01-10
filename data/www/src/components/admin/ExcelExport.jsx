@@ -1,7 +1,7 @@
-import { useState } from "react"
-import { GoldButton } from "../common/Button";
-import { narediExcelStatistik } from "../../services/statistike";
 import { ChevronDownIcon } from "lucide-react";
+import { useState } from "react";
+import { narediExcelStatistik } from "../../services/statistike";
+import { GoldButton } from "../common/Button";
 
 export default function ExcelExport() {
     const [loading, setLoading] = useState(false);
@@ -12,7 +12,6 @@ export default function ExcelExport() {
         setLoading(true);
         try {
             const res = await narediExcelStatistik(selectedYear);
-            console.log('Excel export response:', res);
             const url = window.URL.createObjectURL(res.data);
             const link = document.createElement('a');
             link.href = url;

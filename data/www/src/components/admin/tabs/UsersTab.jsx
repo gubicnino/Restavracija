@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import UsersTable from '../UsersTable';
-import UserCard from '../UserCard';
-import { pridobiUporabnike, posodobiUporabnika, ustvariUporabnika, izbrisiUporabnika } from '../../../services/uporabniki';
-import Modal from '../../common/Modal';
 import { UserPlus } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { izbrisiUporabnika, posodobiUporabnika, pridobiUporabnike, ustvariUporabnika } from '../../../services/uporabniki';
+import Modal from '../../common/Modal';
+import UserCard from '../UserCard';
+import UsersTable from '../UsersTable';
 
 export default function UsersTab() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -21,7 +21,6 @@ export default function UsersTab() {
 
     useEffect(() => {
         pridobiUporabnike().then(data => {
-            console.log('Pridobljeni uporabniki:', data);
             setUsers(data.data);
         });
     }, []);

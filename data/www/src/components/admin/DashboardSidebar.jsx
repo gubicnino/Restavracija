@@ -1,5 +1,4 @@
-import React from 'react';
-import { Calendar, Users, BarChart3, Table } from 'lucide-react';
+import { BarChart3, Calendar, Table, Users } from 'lucide-react';
 
 export default function DashboardSidebar({ activeTab, setActiveTab }) {
     const menuItems = [
@@ -17,7 +16,10 @@ export default function DashboardSidebar({ activeTab, setActiveTab }) {
                     {menuItems.map(({ id, label, icon: Icon }) => (
                         <li key={id}>
                             <button
-                                onClick={() => setActiveTab(id)}
+                                onClick={() => {
+                                    setActiveTab(id);
+                                    window.scrollTo({ top: 0, behavior: 'instant' });
+                                }}
                                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all font-inter ${
                                     activeTab === id
                                         ? 'bg-gold text-black-rich font-semibold'

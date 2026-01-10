@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { clearUserFromStorage, loadUserFromStorage, saveUserToStorage } from '../services/auth';
 
 const UserContext = createContext(null);

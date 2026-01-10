@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
 import { Plus } from 'lucide-react';
-import TablesTable from '../TablesTable';
-import TableCard from '../TableCard';
-import { pridobiMize, ustvariMizo, posodobiMizo, izbrisiMizo } from '../../../services/mize';
+import { useEffect, useState } from 'react';
+import { izbrisiMizo, posodobiMizo, pridobiMize, ustvariMizo } from '../../../services/mize';
 import Modal from '../../common/Modal';
+import TableCard from '../TableCard';
+import TablesTable from '../TablesTable';
 
 export default function TablesTab() {
     const [tables, setTables] = useState([]);
@@ -17,7 +17,6 @@ export default function TablesTab() {
 
     useEffect(() => {
         pridobiMize().then(data => {
-            console.log('Pridobljene mize:', data);
             setTables(data.data);
         });
     }, []);

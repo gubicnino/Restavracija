@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { CalendarIcon, ClockIcon, UsersIcon, PhoneIcon, MailIcon, CheckIcon, AlertCircleIcon, Loader2Icon } from 'lucide-react';
+import { AlertCircleIcon, CalendarIcon, CheckIcon, ClockIcon, Loader2Icon, MailIcon, PhoneIcon, UsersIcon } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { ustvariRezervacijo } from '../services/rezervacije';
 import { pridobiProsteTermine } from '../services/termini';
 
@@ -100,7 +100,6 @@ export default function ReservationForm() {
 
     try {
       const response = await ustvariRezervacijo(reservationDetails);
-      console.log('Reservation created:', response);
       
       if (response.success) {
         setReservationData(response);

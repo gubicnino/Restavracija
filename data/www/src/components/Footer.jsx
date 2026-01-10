@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { MapPinIcon, PhoneIcon, MailIcon, ClockIcon, InstagramIcon, FacebookIcon } from 'lucide-react';
-import { logout } from '../services/auth';
-import { useUser } from '../context/UserContext';
+import { ClockIcon, FacebookIcon, InstagramIcon, MailIcon, MapPinIcon, PhoneIcon } from 'lucide-react';
+import { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useUser } from '../context/UserContext';
+import { logout } from '../services/auth';
 
 
 export default function Footer() {
@@ -178,7 +178,6 @@ export default function Footer() {
               {quickLinks.map((link, index) => <li key={index}>
                   <NavLink 
                     to={link.href}
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     className="text-gray-400 font-inter text-sm font-light hover:text-gold transition-colors duration-300 flex items-center gap-2 group"
                   >
                     <span className="w-0 h-px bg-gold group-hover:w-4 transition-all duration-300" />
