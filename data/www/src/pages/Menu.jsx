@@ -8,7 +8,6 @@ export default function Menu() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [menuData, setMenuData] = useState([]);
 
-
   useEffect(() => {
     pridobiMeniIteme().then(data => {
       const transformedData = transformMenuData(data.data);
@@ -19,81 +18,81 @@ export default function Menu() {
     // Group by location, then by category
     const locations = {};
     const allLocationItems = []; // Shranjujemo vse iteme z lokacijo "vse"
-    
+
     apiData.forEach(item => {
       const locationId = item.lokacija || 'all';
       const categoryName = item.category_name || item.kategorija;
-      
+
       // Če je lokacija "vse", shranimo posebej
       if (locationId === 'vse' || locationId === 'all') {
         allLocationItems.push(item);
       }
-      
+
       // Create location if doesn't exist
       if (!locations[locationId]) {
         locations[locationId] = {};
       }
-      
+
       // Create category within location if doesn't exist
       if (!locations[locationId][categoryName]) {
         locations[locationId][categoryName] = {
           name: categoryName,
-          items: []
+          items: [],
         };
       }
-      
+
       locations[locationId][categoryName].items.push({
         name: item.ime,
         description: item.opis,
         price: item.cena,
         image: item.slika,
-        tag: item.oznaka || undefined
+        tag: item.oznaka || undefined,
       });
     });
-    
+
     // Dodaj vse iteme iz "vse" v ostale lokacije (limbus, lent)
     const specificLocations = Object.keys(locations).filter(loc => loc !== 'vse' && loc !== 'all');
-    
+
     allLocationItems.forEach(item => {
       const categoryName = item.category_name || item.kategorija;
-      
+
       specificLocations.forEach(locationId => {
         // Create location if doesn't exist
         if (!locations[locationId]) {
           locations[locationId] = {};
         }
-        
+
         // Create category within location if doesn't exist
         if (!locations[locationId][categoryName]) {
           locations[locationId][categoryName] = {
             name: categoryName,
-            items: []
+            items: [],
           };
         }
-        
+
         // Dodaj item samo če že ne obstaja (preprečimo duplikate)
         const itemExists = locations[locationId][categoryName].items.some(
           existingItem => existingItem.name === item.ime
         );
-        
+
         if (!itemExists) {
           locations[locationId][categoryName].items.push({
             name: item.ime,
             description: item.opis,
             price: item.cena,
             image: item.slika,
-            tag: item.oznaka || undefined
+            tag: item.oznaka || undefined,
           });
         }
       });
     });
-    
+
     // Convert to format: { locationId: [categories] }
     const result = {};
     Object.keys(locations).forEach(locationId => {
       result[locationId] = Object.values(locations[locationId]);
     });
-    
+
     return result;
   }
   return (
@@ -107,12 +106,7 @@ export default function Menu() {
       />
 
       {/* Menu Section */}
-      <MenuPreview
-        menuData={menuData}
-        showViewAllLink={false}
-        showLocationTabs={true}
-        isCustomData={true}
-      />
+      <MenuPreview menuData={menuData} showViewAllLink={false} showLocationTabs isCustomData />
 
       {/* Special Info Section */}
       <section className="relative py-20 px-6 bg-black-card">

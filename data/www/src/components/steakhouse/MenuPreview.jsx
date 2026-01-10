@@ -11,31 +11,35 @@ const defaultMenuData = {
       items: [
         {
           name: 'Smash',
-          description: 'Hlebček, 2x "smash" hrustljava pleskavica iz zorjene slovenske govedine, 2x cheddar sir, 2x slanina, hišna omaka, popečena čebula, kisle kumarice',
+          description:
+            'Hlebček, 2x "smash" hrustljava pleskavica iz zorjene slovenske govedine, 2x cheddar sir, 2x slanina, hišna omaka, popečena čebula, kisle kumarice',
           price: '13,60',
           image: '/assets/menu/burgers/smash burger.avif',
-          tag: "Chef's Choice"
+          tag: "Chef's Choice",
         },
         {
           name: 'Cheese Junkie',
-          description: 'Črn hlebček, meso, "Bergkäse", dvojna slanina, rukola, ocvrta čebula, pomfri, omaka, injekcija cheddar sira in injekcija smokey BBQ omake',
+          description:
+            'Črn hlebček, meso, "Bergkäse", dvojna slanina, rukola, ocvrta čebula, pomfri, omaka, injekcija cheddar sira in injekcija smokey BBQ omake',
           price: '14,60',
           image: '/assets/menu/burgers/cheese junkie.avif',
-          tag: 'Premium'
+          tag: 'Premium',
         },
         {
           name: 'King Kong',
-          description: 'Hlebček, tri polpete, cheddar sir, hrustljava slanina, čebula, kisla kumarica, omaka, solata',
+          description:
+            'Hlebček, tri polpete, cheddar sir, hrustljava slanina, čebula, kisla kumarica, omaka, solata',
           price: '20,59',
-          image: '/assets/menu/burgers/king kong.avif'
+          image: '/assets/menu/burgers/king kong.avif',
         },
         {
           name: 'Jack & Joe',
-          description: 'Črn hlebček, meso, rezine pljučne na žaru, tartufi, tartufata, cheddar sir, omaka, hrustljava slanina, omaka, rukola',
+          description:
+            'Črn hlebček, meso, rezine pljučne na žaru, tartufi, tartufata, cheddar sir, omaka, hrustljava slanina, omaka, rukola',
           price: '19,59',
-          image: '/assets/menu/burgers/jack and joe.avif'
-        }
-      ]
+          image: '/assets/menu/burgers/jack and joe.avif',
+        },
+      ],
     },
     {
       name: 'Pizze',
@@ -44,27 +48,29 @@ const defaultMenuData = {
           name: 'Pizza Margerita',
           description: 'Pelati, sir mozzarella Fior Di Latte, bazilika',
           price: '12,60',
-          image: '/assets/menu/pizze/margerita.avif'
+          image: '/assets/menu/pizze/margerita.avif',
         },
         {
           name: 'Pizza Mortadela in tartufi',
-          description: 'Zelena omaka, sir mozzarella Fior Di Latte, pol sušeni paradižniki, mortadela, buratta, pistacije, olje s tartufi',
+          description:
+            'Zelena omaka, sir mozzarella Fior Di Latte, pol sušeni paradižniki, mortadela, buratta, pistacije, olje s tartufi',
           price: '16,60',
-          image: '/assets/menu/pizze/mortadela in tartufi.avif'
+          image: '/assets/menu/pizze/mortadela in tartufi.avif',
         },
         {
           name: 'Pizza Jack Wurst',
-          description: 'Zelena omaka, specialna mešanica sirov, domača salsiccia, slanina, salama, rdeča čebula, domača gorčična omaka',
+          description:
+            'Zelena omaka, specialna mešanica sirov, domača salsiccia, slanina, salama, rdeča čebula, domača gorčična omaka',
           price: '14,20',
-          image: '/assets/menu/pizze/jack wurst.avif'
+          image: '/assets/menu/pizze/jack wurst.avif',
         },
         {
           name: 'Pizza Carpaccio',
           description: 'Green sauce, posebna mešanica sirov, carpaccio, tartufata',
           price: '15,60',
-          image: '/assets/menu/pizze/carpaccio.avif'
-        }
-      ]
+          image: '/assets/menu/pizze/carpaccio.avif',
+        },
+      ],
     },
     {
       name: 'Ostale jedi',
@@ -73,28 +79,28 @@ const defaultMenuData = {
           name: 'Dimljena rebrca',
           description: 'Dimljena rebrca (500 g) z BBQ in curryjevo omako, domač pomfri',
           price: '18,59',
-          image: '/assets/menu/ostale jedi/dimljena rebrca.avif'
+          image: '/assets/menu/ostale jedi/dimljena rebrca.avif',
         },
         {
           name: 'Buffalo perutničke s prilogo',
           description: 'Buffalo perutničke (45 dag) z buffalo omako, dollar chips, kisla smetana',
           price: '15,90',
-          image: '/assets/menu/ostale jedi/buffalo perutničke s prilogo.avif'
+          image: '/assets/menu/ostale jedi/buffalo perutničke s prilogo.avif',
         },
         {
           name: 'Sticky fingers z dollar chipsom',
           description: 'Sticky fingers z BBQ in curryjevo omako, dollar chips',
           price: '13,90',
-          image: '/assets/menu/ostale jedi/sticky fingers z dollar chipsom.avif'
+          image: '/assets/menu/ostale jedi/sticky fingers z dollar chipsom.avif',
         },
         {
           name: 'Perutničke s prilogo',
           description: 'Perutničke (45 dag) z BBQ in curryjevo omako, dollar chips',
           price: '14,89',
-          image: '/assets/menu/ostale jedi/perutničke s prilogo.avif'
-        }
-      ]
-    }
+          image: '/assets/menu/ostale jedi/perutničke s prilogo.avif',
+        },
+      ],
+    },
   ],
   lent: [
     {
@@ -102,31 +108,35 @@ const defaultMenuData = {
       items: [
         {
           name: 'Smash',
-          description: 'Hlebček, 2x "smash" hrustljava pleskavica iz zorjene slovenske govedine, 2x cheddar sir, 2x slanina, hišna omaka, popečena čebula, kisle kumarice',
+          description:
+            'Hlebček, 2x "smash" hrustljava pleskavica iz zorjene slovenske govedine, 2x cheddar sir, 2x slanina, hišna omaka, popečena čebula, kisle kumarice',
           price: '13,60',
           image: '/assets/menu/burgers/smash burger.avif',
-          tag: "Chef's Choice"
+          tag: "Chef's Choice",
         },
         {
           name: 'Cheese Junkie',
-          description: 'Črn hlebček, meso, "Bergkäse", dvojna slanina, rukola, ocvrta čebula, pomfri, omaka, injekcija cheddar sira in injekcija smokey BBQ omake',
+          description:
+            'Črn hlebček, meso, "Bergkäse", dvojna slanina, rukola, ocvrta čebula, pomfri, omaka, injekcija cheddar sira in injekcija smokey BBQ omake',
           price: '14,60',
           image: '/assets/menu/burgers/cheese junkie.avif',
-          tag: 'Premium'
+          tag: 'Premium',
         },
         {
           name: 'King Kong',
-          description: 'Hlebček, tri polpete, cheddar sir, hrustljava slanina, čebula, kisla kumarica, omaka, solata',
+          description:
+            'Hlebček, tri polpete, cheddar sir, hrustljava slanina, čebula, kisla kumarica, omaka, solata',
           price: '20,59',
-          image: '/assets/menu/burgers/king kong.avif'
+          image: '/assets/menu/burgers/king kong.avif',
         },
         {
           name: 'Jack & Joe',
-          description: 'Črn hlebček, meso, rezine pljučne na žaru, tartufi, tartufata, cheddar sir, omaka, hrustljava slanina, omaka, rukola',
+          description:
+            'Črn hlebček, meso, rezine pljučne na žaru, tartufi, tartufata, cheddar sir, omaka, hrustljava slanina, omaka, rukola',
           price: '19,59',
-          image: '/assets/menu/burgers/jack and joe.avif'
-        }
-      ]
+          image: '/assets/menu/burgers/jack and joe.avif',
+        },
+      ],
     },
     {
       name: 'Pizze',
@@ -135,27 +145,29 @@ const defaultMenuData = {
           name: 'Pizza Margerita',
           description: 'Pelati, sir mozzarella Fior Di Latte, bazilika',
           price: '12,60',
-          image: '/assets/menu/pizze/margerita.avif'
+          image: '/assets/menu/pizze/margerita.avif',
         },
         {
           name: 'Pizza Mortadela in tartufi',
-          description: 'Zelena omaka, sir mozzarella Fior Di Latte, pol sušeni paradižniki, mortadela, buratta, pistacije, olje s tartufi',
+          description:
+            'Zelena omaka, sir mozzarella Fior Di Latte, pol sušeni paradižniki, mortadela, buratta, pistacije, olje s tartufi',
           price: '16,60',
-          image: '/assets/menu/pizze/mortadela in tartufi.avif'
+          image: '/assets/menu/pizze/mortadela in tartufi.avif',
         },
         {
           name: 'Pizza Jack Wurst',
-          description: 'Zelena omaka, specialna mešanica sirov, domača salsiccia, slanina, salama, rdeča čebula, domača gorčična omaka',
+          description:
+            'Zelena omaka, specialna mešanica sirov, domača salsiccia, slanina, salama, rdeča čebula, domača gorčična omaka',
           price: '14,20',
-          image: '/assets/menu/pizze/jack wurst.avif'
+          image: '/assets/menu/pizze/jack wurst.avif',
         },
         {
           name: 'Pizza Carpaccio',
           description: 'Green sauce, posebna mešanica sirov, carpaccio, tartufata',
           price: '15,60',
-          image: '/assets/menu/pizze/carpaccio.avif'
-        }
-      ]
+          image: '/assets/menu/pizze/carpaccio.avif',
+        },
+      ],
     },
     {
       name: 'Ostale jedi',
@@ -164,54 +176,54 @@ const defaultMenuData = {
           name: 'Dimljena rebrca',
           description: 'Dimljena rebrca (500 g) z BBQ in curryjevo omako, domač pomfri',
           price: '18,59',
-          image: '/assets/menu/ostale jedi/dimljena rebrca.avif'
+          image: '/assets/menu/ostale jedi/dimljena rebrca.avif',
         },
         {
           name: 'Buffalo perutničke s prilogo',
           description: 'Buffalo perutničke (45 dag) z buffalo omako, dollar chips, kisla smetana',
           price: '15,90',
-          image: '/assets/menu/ostale jedi/buffalo perutničke s prilogo.avif'
+          image: '/assets/menu/ostale jedi/buffalo perutničke s prilogo.avif',
         },
         {
           name: 'Sticky fingers z dollar chipsom',
           description: 'Sticky fingers z BBQ in curryjevo omako, dollar chips',
           price: '13,90',
-          image: '/assets/menu/ostale jedi/sticky fingers z dollar chipsom.avif'
+          image: '/assets/menu/ostale jedi/sticky fingers z dollar chipsom.avif',
         },
         {
           name: 'Perutničke s prilogo',
           description: 'Perutničke (45 dag) z BBQ in curryjevo omako, dollar chips',
           price: '14,89',
-          image: '/assets/menu/ostale jedi/perutničke s prilogo.avif'
-        }
-      ]
-    }
-  ]
+          image: '/assets/menu/ostale jedi/perutničke s prilogo.avif',
+        },
+      ],
+    },
+  ],
 };
 
-export default function MenuPreview({ 
+export default function MenuPreview({
   menuData = defaultMenuData,
   isCustomData = false,
   showTitle = true,
   showViewAllLink = true,
-  title = "Naš Meni",
-  subtitle = "Kulinarna senzacija",
+  title = 'Naš Meni',
+  subtitle = 'Kulinarna senzacija',
   showLocationTabs = false,
   locations = [
     { id: 'limbus', name: 'Limbuš' },
-    { id: 'lent', name: 'Lent'}
-  ]
+    { id: 'lent', name: 'Lent' },
+  ],
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
-    margin: '-100px'
+    margin: '-100px',
   });
   const [activeLocation, setActiveLocation] = useState(0);
   const [activeCategory, setActiveCategory] = useState(0);
 
   // Get data for active location
-  const currentLocationData = showLocationTabs 
+  const currentLocationData = showLocationTabs
     ? menuData[locations[activeLocation]?.id] || []
     : menuData['vse'] || Object.values(menuData)[0] || [];
 
@@ -233,7 +245,8 @@ export default function MenuPreview({
               {subtitle}
             </p>
             <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl text-white mb-6">
-              {title.split(' ').slice(0, -1).join(' ')} <span className="text-gold-gradient">{title.split(' ').slice(-1)}</span>
+              {title.split(' ').slice(0, -1).join(' ')}{' '}
+              <span className="text-gold-gradient">{title.split(' ').slice(-1)}</span>
             </h2>
             <div className="w-24 h-px bg-gold mx-auto" />
           </motion.div>
@@ -278,9 +291,7 @@ export default function MenuPreview({
               key={category.name}
               onClick={() => setActiveCategory(index)}
               className={`relative px-6 py-3 font-inter text-sm tracking-wider uppercase transition-colors duration-300 ${
-                activeCategory === index
-                  ? 'text-gold'
-                  : 'text-gray-400 hover:text-white'
+                activeCategory === index ? 'text-gold' : 'text-gray-400 hover:text-white'
               }`}
             >
               {category.name}
@@ -291,7 +302,7 @@ export default function MenuPreview({
                   transition={{
                     type: 'spring',
                     stiffness: 300,
-                    damping: 30
+                    damping: 30,
                   }}
                 />
               )}
@@ -317,23 +328,21 @@ export default function MenuPreview({
                 className="group flex gap-6 p-6 bg-black-rich/50 border border-white/5 hover:border-gold/20 transition-colors duration-500"
               >
                 {/* Image */}
-                {isCustomData ? (item.image &&
-                (<div className="relative w-28 h-28 flex-shrink-0 overflow-hidden">
-                  <AdvancedImage 
-                    cldImg={getMenuImage(item.image)}
-                    alt={item.name}
-                  />
-                </div>)): (item.image &&
-                (<div className="relative w-28 h-28 flex-shrink-0 overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>))
-                }
-
-                
+                {isCustomData
+                  ? item.image && (
+                      <div className="relative w-28 h-28 flex-shrink-0 overflow-hidden">
+                        <AdvancedImage cldImg={getMenuImage(item.image)} alt={item.name} />
+                      </div>
+                    )
+                  : item.image && (
+                      <div className="relative w-28 h-28 flex-shrink-0 overflow-hidden">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
 
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-center">
@@ -341,9 +350,7 @@ export default function MenuPreview({
                     <h3 className="font-playfair text-xl text-white group-hover:text-gold transition-colors duration-300">
                       {item.name}
                     </h3>
-                    <span className="font-playfair text-xl text-gold ml-4">
-                      €{item.price}
-                    </span>
+                    <span className="font-playfair text-xl text-gold ml-4">€{item.price}</span>
                   </div>
                   <p className="text-gray-500 font-inter text-sm font-light leading-relaxed">
                     {item.description}

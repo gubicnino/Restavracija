@@ -4,28 +4,24 @@ import { clearUserFromStorage, loadUserFromStorage, saveUserToStorage } from '..
 const UserContext = createContext(null);
 
 export function UserContextProvider({ children }) {
+  const [currentUser, setCurrentUser] = useState(() => loadUserFromStorage());
 
-    const [currentUser, setCurrentUser] = useState(() => 
-        loadUserFromStorage()
-    );
+  const login = user => {
+    setCurrentUser(user);
+    saveUserToStorage(user);
+  };
 
+  const logout = () => {
+    setCurrentUser(null);
+    clearUserFromStorage();
+  };
+  const isLoggedIn = Boolean(currentUser);
 
-    const login = (user) => {
-        setCurrentUser(user);
-        saveUserToStorage(user);
-    };
-
-    const logout = () => {
-        setCurrentUser(null);
-        clearUserFromStorage();
-    }
-    const isLoggedIn = Boolean(currentUser);
-
-    return (
-        <UserContext.Provider value={{ currentUser, isLoggedIn, login, logout }}>
-            {children}
-        </UserContext.Provider>
-    );
+  return (
+    <UserContext.Provider value={{ currentUser, isLoggedIn, login, logout }}>
+      {children}
+    </UserContext.Provider>
+  );
 }
 
 export function useUser() {

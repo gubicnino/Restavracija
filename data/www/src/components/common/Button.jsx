@@ -1,23 +1,24 @@
 import { motion } from 'framer-motion';
 
 // Primary Gold Button
-export function GoldButton({ 
-  href, 
-  onClick, 
-  children, 
+export function GoldButton({
+  href,
+  onClick,
+  children,
   className = '',
   variant = 'primary', // 'primary' ali 'outline'
-  ...props 
+  ...props
 }) {
-  const baseClasses = "group relative px-8 py-4 font-inter font-semibold tracking-wider uppercase text-sm transition-all duration-500";
-  
+  const baseClasses =
+    'group relative px-8 py-4 font-inter font-semibold tracking-wider uppercase text-sm transition-all duration-500';
+
   const variants = {
-    primary: "bg-gold text-black-rich gold-glow hover:bg-gold-light",
-    outline: "border border-gold text-gold hover:bg-gold hover:text-black-rich"
+    primary: 'bg-gold text-black-rich gold-glow hover:bg-gold-light',
+    outline: 'border border-gold text-gold hover:bg-gold hover:text-black-rich',
   };
 
   const Component = href ? motion.a : motion.button;
-  
+
   return (
     <Component
       href={href}
@@ -36,13 +37,7 @@ export function GoldButton({
 }
 
 // Animated Link Button (npr. "View Full Menu")
-export function AnimatedLink({ 
-  href, 
-  children, 
-  className = '',
-  onClick,
-  ...props 
-}) {
+export function AnimatedLink({ href, children, className = '', onClick, ...props }) {
   return (
     <motion.a
       href={href}
@@ -61,14 +56,7 @@ export function AnimatedLink({
 }
 
 // Navigation Link (za mobile menu)
-export function NavLink({ 
-  href, 
-  children, 
-  onClick, 
-  index = 0,
-  isOpen = true,
-  className = ''
-}) {
+export function NavLink({ href, children, onClick, index = 0, isOpen = true, className = '' }) {
   return (
     <motion.a
       href={href}

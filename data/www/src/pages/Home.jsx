@@ -1,12 +1,12 @@
-import React from 'react'
-import { Hero } from '../components/steakhouse/Hero'
-import { About } from '../components/steakhouse/About'
-import MenuPreview from '../components/steakhouse/MenuPreview'
-import { Chef } from '../components/steakhouse/Chef'
-import { Reservation } from '../components/steakhouse/Reservation'
-import { Gallery } from '../components/steakhouse/Gallery'
-import Footer from '../components/Footer'
-import Navigation from '../components/Navigation'
+import React from 'react';
+import { Hero } from '../components/steakhouse/Hero';
+import { About } from '../components/steakhouse/About';
+import MenuPreview from '../components/steakhouse/MenuPreview';
+import { Chef } from '../components/steakhouse/Chef';
+import { Reservation } from '../components/steakhouse/Reservation';
+import { Gallery } from '../components/steakhouse/Gallery';
+import Footer from '../components/Footer';
+import Navigation from '../components/Navigation';
 
 export default function SteakhouseLanding() {
   return (
@@ -20,5 +20,5 @@ export default function SteakhouseLanding() {
         <Gallery />
       </main>
     </>
-  )
+  );
 }

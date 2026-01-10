@@ -60,6 +60,5 @@
   margin: var(--spacing-md) 0;
 }
 .button-wrapper {
-    
-    margin-top: var(--spacing-md);
+  margin-top: var(--spacing-md);
 }

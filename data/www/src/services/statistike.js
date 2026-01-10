@@ -1,6 +1,7 @@
-import api from "./api";
+import api from './api';
 
-export const narediExcelStatistik = (year) => {
-    return api.get(`/api/statistike/statistike_excel.php?year=${year}`, {
-        responseType: 'blob'
-    });}
+export const narediExcelStatistik = year => {
+  return api.get(`/api/statistike/statistike_excel.php?year=${year}`, {
+    responseType: 'blob',
+  });
+};

@@ -46,7 +46,7 @@
   color: var(--color-text-muted);
 }
 
-.auth-form button[type="submit"] {
+.auth-form button[type='submit'] {
   background-color: var(--color-accent);
   color: var(--color-primary);
   padding: var(--spacing-sm) var(--spacing-md);
@@ -58,11 +58,11 @@
   transition: background-color 0.3s ease;
 }
 
-.auth-form button[type="submit"]:hover:not(:disabled) {
+.auth-form button[type='submit']:hover:not(:disabled) {
   background-color: var(--color-accent-dark);
 }
 
-.auth-form button[type="submit"]:disabled {
+.auth-form button[type='submit']:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
