@@ -287,7 +287,9 @@ export default function ReservationForm() {
                 Datum *
               </label>
               <div className="relative">
-                <CalendarIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600" />
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+                  <CalendarIcon className="w-5 h-5 text-gray-600" />
+                </div>
                 <input
                   type="date"
                   name="date"
@@ -296,9 +298,17 @@ export default function ReservationForm() {
                   required
                   disabled={isSubmitting}
                   min={new Date().toISOString().split('T')[0]}
-                  className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  max={new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+                  lang="sl-SI"
+                  className="w-full bg-black-rich border border-white/10 pl-12 pr-4 py-3 text-white font-inter focus:border-gold focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:left-0 [&::-webkit-calendar-picker-indicator]:top-0 [&::-webkit-calendar-picker-indicator]:opacity-0"
+                  style={{
+                    colorScheme: 'dark',
+                  }}
                 />
               </div>
+              <p className="text-gray-500 text-xs font-inter mt-1.5">
+                Rezervacije možne do 120 dni vnaprej
+              </p>
             </div>
 
             <div>
