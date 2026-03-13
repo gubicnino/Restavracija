@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { useUser } from '../../context/UserContext';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login as loginService } from '../../services/auth';
-import { Link } from 'react-router-dom';
-import { verifyCode } from '../../services/auth';
+import { useUser } from '../../context/UserContext';
+import { login as loginService, verifyCode } from '../../services/auth';
 import '../../styles/Auth.css';
 import { GoldButton } from '../common/Button';
 
@@ -102,9 +100,13 @@ export default function LoginForm() {
           </div>
         )}
 
-        <div className="auth-link">
+         
+        {/**
+         * <div className="auth-link">
           Nimate računa? <Link to="/register">Registrirajte se</Link>
         </div>
+         */}
+        
       </div>
     </div>
   );

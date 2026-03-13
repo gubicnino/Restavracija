@@ -52,8 +52,6 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
-      PMA_USER: ${DB_USER}
-      PMA_PASSWORD: ${DB_PASSWORD}
     depends_on:
       mysql:
         condition: service_healthy

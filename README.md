@@ -10,10 +10,11 @@ A full-stack web application for a restaurant featuring a modern React frontend 
 |---|---|
 | Frontend | React 19, Vite, Tailwind CSS, React Router, Recharts, Framer Motion |
 | Backend | PHP (Apache), REST API with PDO |
-| Database | MySQL (Azure MySQL Flexible Server) |
+| Database | MySQL |
 | Email | SMTP via custom EmailService |
 | Dev Tools | Docker Compose, phpMyAdmin |
 | Image hosting | Cloudinary |
+| Cloud | Backend + MySQL running on Oracle VM |
 
 ---
 
@@ -38,11 +39,14 @@ A full-stack web application for a restaurant featuring a modern React frontend 
 
 ## Database Schema
 
-- **User** — registered users
-- **Reservation** — reservation records (date, time, number of guests, status)
-- **TableEntity** — restaurant tables
-- **Reservation_Table** — many-to-many link between reservations and tables
-- **PDFConfirmation** — PDF confirmation files linked to reservations
+- `user` — application users and roles
+- `verification_codes` — one-time verification codes for 2-step login
+- `tableentity` — restaurant tables (number, capacity, location, table status)
+- `reservation` — reservation records (guest info, time range, status, created timestamp)
+- `reservation_table` — link table between reservations and assigned tables
+- `pdfconfirmation` — generated PDF confirmation paths per reservation
+- `menu_category` — menu categories and display order
+- `menu_item` — menu items with category, price, image, and availability/location flags
 
 ---
 
@@ -60,19 +64,14 @@ git clone https://github.com/gubicnino/Restavracija.git
 cd Restavracija
 ```
 
-### 2. Create the MySQL database
-
-Start a local MySQL server (or use Docker) and create the database
-
-Then import the schema and seed data
-
-### 3. Create a `.env` file
+### 2. Create a `.env` file
 
 Create a `.env` file in the project root with the following variables:
 
 ```env
 DB_PASSWORD=
-DB_HOST=
+DB_ROOT_PASSWORD=
+DB_HOST=mysql
 DB_PORT=3306
 DB_NAME=
 DB_USER=
@@ -85,7 +84,7 @@ SMTP_FROM_EMAIL=your@email.com
 SMTP_FROM_NAME=Restaurant
 ```
 
-### 4. Start the backend
+### 3. Start the backend and database
 
 ```bash
 docker compose up -d
@@ -94,6 +93,7 @@ docker compose up -d
 This starts:
 - **PHP/Apache backend** on http://localhost:8000
 - **phpMyAdmin** on http://localhost:8001
+- **MySQL server**
 
 ### 5. Start the frontend
 
