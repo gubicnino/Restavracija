@@ -1,45 +1,62 @@
 services:
 
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./script.sql:/docker-entrypoint-initdb.d/script.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   spletni-streznik:
     build:
       context: .
       dockerfile_inline: |
           FROM php:apache
           RUN docker-php-ext-install pdo pdo_mysql
-          # Omogoči SSL podporo za Azure MySQL
-          RUN apt-get update && apt-get install -y ca-certificates
     restart: unless-stopped
     ports:
       - 8000:80
     volumes:
       - ./data/php:/var/www/html/
     environment:
-      - DB_HOST=restavracija.mysql.database.azure.com
+      - DB_HOST=mysql
       - DB_PORT=3306
-      - DB_USER=student
+      - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=dsr_projekt
-      # SMTP settings
+      - DB_NAME=${DB_NAME}
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_PORT=${SMTP_PORT}
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
       - SMTP_FROM_EMAIL=${SMTP_FROM_EMAIL}
       - SMTP_FROM_NAME=${SMTP_FROM_NAME}
-
+    depends_on:
+      mysql:
+        condition: service_healthy
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     restart: unless-stopped
     ports:
-      - "127.0.0.1:8001:80"
+      - "8001:80"
     environment:
-      # Povezava na Azure MySQL
-      PMA_HOST: restavracija.mysql.database.azure.com
+      PMA_HOST: mysql
       PMA_PORT: 3306
-      PMA_USER: student
+      PMA_USER: ${DB_USER}
       PMA_PASSWORD: ${DB_PASSWORD}
-      # SSL konfiguracija
-      PMA_ABSOLUTE_URI: http://localhost:8001/
-      PMA_SSL: 1
-      MYSQL_SSL_MODE: REQUIRED
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
