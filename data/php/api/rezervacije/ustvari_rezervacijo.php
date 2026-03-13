@@ -51,7 +51,7 @@ if (empty($polno_ime) || empty($email) || empty($telefon) || empty($datum) || em
 $cas_konec = date('H:i:s', strtotime($cas_zacetek . ' + 2 hours'));
 
 $sql = '
-    INSERT INTO Reservation (polno_ime, email, telefon, datum, cas_zacetek, cas_konec, stevilo_oseb, posebna_priloznost, posebne_zelje)
+    INSERT INTO reservation (polno_ime, email, telefon, datum, cas_zacetek, cas_konec, stevilo_oseb, posebna_priloznost, posebne_zelje)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 ';
 
@@ -61,7 +61,7 @@ try {
     // Find available table
     $sql_table = '
         SELECT table_id, kapaciteta 
-        FROM TableEntity 
+        FROM tableentity 
         WHERE kapaciteta >= ?
         ORDER BY kapaciteta ASC
     ';
@@ -98,7 +98,7 @@ try {
 
     // Link reservation to table
     $sql_reservation_table = '
-        INSERT INTO Reservation_Table (reservation_id, table_id)
+        INSERT INTO reservation_table (reservation_id, table_id)
         VALUES (?, ?)
     ';
     $stmt_reservation_table = $pdo->prepare($sql_reservation_table);
@@ -325,7 +325,7 @@ try {
 
     //shrani PDF v bazo
     $relativePdfPath = '/confirmations/' . $pdfFilename;
-    $sql_pdf = 'INSERT INTO PDFConfirmation (reservation_id, pot_potrdila) VALUES (?, ?)';
+    $sql_pdf = 'INSERT INTO pdfconfirmation (reservation_id, pot_potrdila) VALUES (?, ?)';
 
     $stmt_pdf = $pdo->prepare($sql_pdf);
     $stmt_pdf->execute([$reservation_id, $relativePdfPath]);

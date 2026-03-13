@@ -32,7 +32,7 @@ $sql2 = '
         TIME_FORMAT(r.cas_konec, "%H:%i") AS cas_konec,
         r.status
     FROM tableentity t
-    LEFT JOIN reservation_Table rt ON t.table_id = rt.table_id
+    LEFT JOIN reservation_table rt ON t.table_id = rt.table_id
     LEFT JOIN reservation r ON rt.reservation_id = r.reservation_id 
         AND r.datum = :datum 
         AND r.status IN ("pending", "confirmed")

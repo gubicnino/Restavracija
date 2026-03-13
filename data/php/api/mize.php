@@ -9,7 +9,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 
 try {
     $sql = "
-        SELECT * FROM TableEntity
+        SELECT * FROM tableentity
             ";
     $stmt = $pdo->query($sql);
     $mize = $stmt->fetchAll(PDO::FETCH_ASSOC);

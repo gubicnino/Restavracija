@@ -19,9 +19,9 @@ if (!$table_id) {
 
 $sql = "
     SELECT * 
-    FROM Reservation_Table
-    LEFT JOIN Reservation ON Reservation_Table.reservation_id = Reservation.reservation_id
-    WHERE Reservation_Table.table_id = :table_id
+    FROM reservation_table
+    LEFT JOIN reservation ON reservation_table.reservation_id = reservation.reservation_id
+    WHERE reservation_table.table_id = :table_id
 ";
 
 try {
