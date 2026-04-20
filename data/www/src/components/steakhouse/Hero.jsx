@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDownIcon } from 'lucide-react';
+import { useRef } from 'react';
 import { GoldButton } from '../common/Button';
 export function Hero() {
   const ref = useRef(null);
@@ -8,14 +8,13 @@ export function Hero() {
     target: ref,
     offset: ['start start', 'end start'],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '10%']);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   return (
     <section ref={ref} className="relative h-screen w-full overflow-hidden">
       {/* Parallax Background */}
       <motion.div
         style={{
-          y,
           willChange: 'transform',
         }}
         className="absolute inset-0 w-full h-[120%]"

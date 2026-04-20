@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
 import '../../styles/PageTitle.css';
 
 export default function PageTitle({ PageTitle, title, titleGold, backgroundImage }) {
@@ -18,7 +18,6 @@ export default function PageTitle({ PageTitle, title, titleGold, backgroundImage
       {/* Parallax Background */}
       <motion.div
         style={{
-          y,
           willChange: 'transform',
         }}
         className="absolute inset-0 w-full h-[120%] will-change-transform"
